@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: proxy-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes --notify-keyspace-events Ex
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: proxy-app
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=development
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=1
+      - PORT=4000
+    volumes:
+      - ./src:/app/src
+      - ./tsconfig.json:/app/tsconfig.json
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  redis-data:
+    driver: local
