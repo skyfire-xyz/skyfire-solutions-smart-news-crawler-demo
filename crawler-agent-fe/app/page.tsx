@@ -16,7 +16,7 @@ export default function App() {
   const [_isMediumScreen, setIsMediumScreen] = useState(true)
 
   const searchParams = useSearchParams();
-  const skyfireKyaPayToken = searchParams.get("token") || undefined;
+  const skyfireKyaToken = searchParams.get("token") || undefined;
 
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
@@ -58,7 +58,7 @@ export default function App() {
     <div className="flex h-full flex-col">
       <div className="h-5" />
       <div className="container mx-auto px-4">
-        <CrawlSearchLog skyfireKyaPayToken={skyfireKyaPayToken} />
+        <CrawlSearchLog skyfireKyaToken={skyfireKyaToken} />
       </div>
     </div>
   )

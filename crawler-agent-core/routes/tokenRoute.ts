@@ -10,7 +10,7 @@ const router = express.Router();
     }
 
 router.route("/").post(async (req, res) => {
-    const {tokenAmount, userApiKey} = req.body;
+    const {userApiKey} = req.body;
     try {
         const response = await fetch(`${process.env.SKYFIRE_API_BASE_URL}/api/v1/tokens`, {
             method: "POST",
@@ -19,9 +19,8 @@ router.route("/").post(async (req, res) => {
                 "skyfire-api-key": userApiKey && userApiKey.length > 0 ? userApiKey : process.env.SKYFIRE_API_KEY,
             },
             body: JSON.stringify({
-                type: "kya+pay",
+                type: "kya",
                 buyerTag: process.env.BUYER_TAG, 
-                tokenAmount: tokenAmount,
                 sellerServiceId: process.env.SELLER_SERVICE_ID,
                 expiresAt: getEpochPlus24Hours(),
             }),
@@ -30,8 +29,8 @@ router.route("/").post(async (req, res) => {
         if (response.status === 200) {
             const res1: { token: string } = await response.json();
             if (!res1 || !res1.token) {
-                console.error("Unable to create kya+pay token");
-                res.status(500).json({ error: "Unable to create kya+pay token" });
+                console.error("Unable to create kya token");
+                res.status(500).json({ error: "Unable to create kya token" });
                 return;
             }
             res.status(200).json({"token": `${res1.token}`})

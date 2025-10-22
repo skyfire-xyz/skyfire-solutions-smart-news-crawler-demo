@@ -1,4 +1,4 @@
-export function skyfireKyaPayTokenHook(token: string) {
+export function skyfireKyaTokenHook(token: string) {
   return async (crawlingContext, gotOptions) => {
     crawlingContext.request.headers = {
       ...crawlingContext.request.headers,

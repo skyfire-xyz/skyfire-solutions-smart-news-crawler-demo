@@ -9,7 +9,7 @@ export default function TopBar() {
         </h1>
         <div>
           <p className="text-gray-700 dark:text-gray-200 text-base leading-relaxed mb-2">
-            This demo web crawler illustrates how token-based payments can be used to access and crawl protected websites.<br/>
+            This demo web crawler illustrates how token-based identification can be used to access and crawl protected websites.<br/>
             There are two sample URLs provided:
           </p>
           <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 text-base space-y-1">
@@ -17,7 +17,7 @@ export default function TopBar() {
               <span className="font-semibold">Unprotected Website:</span> Accessible to the crawler without any token.
             </li>
             <li>
-              <span className="font-semibold">Protected Website:</span> Requires a <span className="font-mono">kya+pay</span> token to allow crawler access.
+              <span className="font-semibold">Protected Website:</span> Requires a <span className="font-mono">kya</span> token to allow crawler access.
             </li>
           </ul>
           <div className="mt-4">

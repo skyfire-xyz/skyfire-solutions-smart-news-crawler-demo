@@ -7,20 +7,17 @@ import axios, { AxiosResponse } from "axios";
 
 const SELLER_SERVICE = {
     name: process.env.NEXT_PUBLIC_SELLER_SERVICE_NAME, 
-    tokenAmount: process.env.NEXT_PUBLIC_DEFAULT_TOKEN_AMOUNT, 
-    priceDisplay: process.env.NEXT_PUBLIC_PRICE_DISPLAY
 };
 
 export default function CrawlWithTokenPage() {
     const [userApiKey, setUserApiKey] = useState<string>("")
     const [showApiKeyInput, setShowApiKeyInput] = useState(false)
     const [error, setError] = useState<string | null>(null)
-    const [kyaPayToken, setKyaPayToken] = useState<string | null>("")
+    const [kyaToken, setKyaToken] = useState<string | null>("")
     const [decodedToken, setDecodedToken] = useState<any>(null)
-    const [tokenAmount, setTokenAmount] = useState<string | undefined>(SELLER_SERVICE.tokenAmount);
 
     const handleStartOver = async () => {
-      setKyaPayToken(null)
+      setKyaToken(null)
       setDecodedToken(null);
     }
 
@@ -28,20 +25,20 @@ export default function CrawlWithTokenPage() {
       try {
         const response: AxiosResponse<{token:string, error: string}> = await axios.post(
           `${process.env.NEXT_PUBLIC_SERVICE_BASE_URL}/token`,
-          {tokenAmount: tokenAmount, userApiKey: userApiKey},
+          {userApiKey: userApiKey},
         );
         if (response.data.error) {
           setError(response.data.error);
-          setKyaPayToken(null);
+          setKyaToken(null);
           return;
         }
         setError(null);
-        setKyaPayToken(response.data.token);
+        setKyaToken(response.data.token);
         setDecodedToken(null);
       } catch (err: any) {
         const apiError = err.response?.data?.error || "Unknown error";
         setError(apiError);
-        setKyaPayToken(null);
+        setKyaToken(null);
       }
     }
 
@@ -63,11 +60,11 @@ export default function CrawlWithTokenPage() {
     }
 
     const handleDecodeToken = () => {
-        if (!kyaPayToken) return;
-        if (isJWT(kyaPayToken)) {
+        if (!kyaToken) return;
+        if (isJWT(kyaToken)) {
             try {
-                const header = jwtDecode(kyaPayToken, { header: true });
-                const payload = jwtDecode(kyaPayToken);
+                const header = jwtDecode(kyaToken, { header: true });
+                const payload = jwtDecode(kyaToken);
                 setDecodedToken({ header, payload });
             } catch (err) {
                 setDecodedToken({ error: "Failed to decode token." });
@@ -108,31 +105,12 @@ export default function CrawlWithTokenPage() {
                 </div>
               </div>
             )}
-            <h2 className="text-2xl font-bold mb-1">Step 1: Create KYA+PAY Token</h2>
+            <h2 className="text-2xl font-bold mb-1">Step 1: Create KYA Token</h2>
             <div className="mb-6">
               <div className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col gap-4 shadow-md mt-6 w-full">
                 <div className="flex items-center gap-3">
                   <span className="text-gray-500 text-sm">Seller Service:</span>
                   <span className="font-semibold text-base text-gray-900">{SELLER_SERVICE.name}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-gray-500 text-sm">Price:</span>
-                  <span className="font-semibold text-base text-gray-900">${SELLER_SERVICE.priceDisplay}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div>
-                    <span className="text-gray-500 text-sm">Set Token Amount:</span>
-                    <p className="text-gray-500 text-xs">(Allowed range b/w $0.001 to $0.003)</p>
-                  </div>
-                  <input
-                    type="number"
-                    min="0"
-                    max="0.003"
-                    step="0.001"
-                    value={tokenAmount}
-                    onChange={e => setTokenAmount(e.target.value)}
-                    className="font-bold border border-gray-300 rounded px-3 py-2 w-32 focus:outline-none focus:ring-2 focus:ring-blue-200 bg-gray-50 text-gray-900"
-                  />
                 </div>
               </div>
             </div>
@@ -140,7 +118,7 @@ export default function CrawlWithTokenPage() {
               {error}
             </div>
             {
-            kyaPayToken ? 
+            kyaToken ? 
             <>
               <div className="flex gap-2 mt-4">
                   <button
@@ -155,7 +133,7 @@ export default function CrawlWithTokenPage() {
                 <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full border border-gray-200 flex flex-col gap-4">
                     
                       <div className="break-all text-gray-900 text-base">
-                        {kyaPayToken}
+                        {kyaToken}
                       </div>
                       <button
                         className="px-6 py-2 bg-black text-white rounded font-semibold hover:bg-gray-800 transition mb-4 mt-2 w-fit"
@@ -181,7 +159,7 @@ export default function CrawlWithTokenPage() {
                 <div className="mt-8">
                   <h2 className="text-2xl font-bold mb-1">Step 3: Select website to crawl</h2>
                   <div className="mt-6">
-                    <CrawlSearchLog skyfireKyaPayToken={kyaPayToken} />
+                    <CrawlSearchLog skyfireKyaToken={kyaToken} />
                   </div>
                 </div>
                 </div>

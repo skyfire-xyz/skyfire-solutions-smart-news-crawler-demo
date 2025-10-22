@@ -23,7 +23,7 @@ interface SearchBarProps {
   inputDepth?: string
   inputPayment?: string
   setAlerts: React.Dispatch<React.SetStateAction<Alert[]>>
-  skyfireKyaPayToken?: string
+  skyfireKyaToken?: string
 }
 
 // Define the form schema with Zod
@@ -54,9 +54,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
   inputDepth,
   inputPayment,
   setAlerts,
-  skyfireKyaPayToken,
+  skyfireKyaToken,
 }) => {
-  const [kyaPayToken, setKyaPayToken] = useState<string>(skyfireKyaPayToken || "")
+  const [kyaToken, setKyaToken] = useState<string>(skyfireKyaToken || "")
   const [isLoading, setIsLoading] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
@@ -108,7 +108,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       const requestBody = {
         startUrl: data.url,
         channelId: channelId,
-        skyfireKyaPayToken: kyaPayToken,
+        skyfireKyaToken: kyaToken,
         ...(inputPayment &&
           inputPayment !== "" && { inputCost: Number(inputPayment) }),
         ...(inputDepth &&

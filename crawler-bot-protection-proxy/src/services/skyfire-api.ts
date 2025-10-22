@@ -1,5 +1,5 @@
 import logger from "./logger";
-
+// TODO: remove charge
 const SKYFIRE_API_URL =
   process.env.SKYFIRE_API_URL || "https://app.skyfire.xyz";
 const SKYFIRE_SELLER_API_KEY = process.env.SKYFIRE_SELLER_API_KEY || "";

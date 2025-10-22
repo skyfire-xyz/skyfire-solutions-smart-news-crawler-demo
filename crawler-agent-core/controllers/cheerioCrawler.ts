@@ -17,21 +17,21 @@ import {
 } from './crawlerUtils'
 
 import { addCrawler, stopAndRemoveCrawler } from './crawlerRegistry'
-import { skyfireKyaPayTokenHook } from './skyfireKyaPayTokenHook'
+import { skyfireKyaTokenHook } from './skyfireKyaTokenHook'
 
 export async function crawlWebsite({
   startUrl,
   channelId,
   inputRequests = DEFAULT_REQUESTS,
   inputDepth = DEFAULT_DEPTH,
-  skyfireKyaPayToken
+  skyfireKyaToken
 }: {
   startUrl: string
   channelId: string
   inputRequests?: number
   inputCost?: number
   inputDepth?: number
-  skyfireKyaPayToken?: string
+  skyfireKyaToken?: string
 }): Promise<CrawlResult> {
   try {
     const sUrl = new URL(startUrl)
@@ -72,7 +72,7 @@ export async function crawlWebsite({
     maxRequestRetries: 0,
     requestHandlerTimeoutSecs: 5,
     additionalMimeTypes: ['application/json'],
-    preNavigationHooks: [skyfireKyaPayTokenHook(skyfireKyaPayToken)],
+    preNavigationHooks: [skyfireKyaTokenHook(skyfireKyaToken)],
 
     // Function that will be called for each URL to process the HTML content
     requestHandler: async ({ request, response, body, enqueueLinks }) => {

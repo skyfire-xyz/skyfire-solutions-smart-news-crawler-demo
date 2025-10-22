@@ -1,5 +1,4 @@
 export const DEFAULT_DEPTH = "2"
-export const DEFAULT_PAYMENT = "0.01"
 
 export interface MessageData {
   type: string

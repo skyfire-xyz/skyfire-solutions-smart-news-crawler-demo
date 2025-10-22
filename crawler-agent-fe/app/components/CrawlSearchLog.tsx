@@ -6,12 +6,12 @@ import SearchBar from "./SearchBar";
 import { Alert, MessageData } from "../types";
 
 interface CrawlSearchLogProps {
-  skyfireKyaPayToken?: string;
+  skyfireKyaToken?: string;
 }
 
 const channelId = uuidv4();
 
-export default function CrawlSearchLog({ skyfireKyaPayToken }: CrawlSearchLogProps) {
+export default function CrawlSearchLog({ skyfireKyaToken }: CrawlSearchLogProps) {
   const [currentSite, setCurrentSite] = useState<MessageData>();
   const [summary, setSummary] = useState<MessageData>();
   const [depth, setDepth] = useState<string | undefined>(undefined);
@@ -72,7 +72,7 @@ export default function CrawlSearchLog({ skyfireKyaPayToken }: CrawlSearchLogPro
           inputDepth={depth}
           inputPayment={payment}
           setAlerts={setAlerts}
-          skyfireKyaPayToken={skyfireKyaPayToken}
+          skyfireKyaToken={skyfireKyaToken}
         />
       </div>
         <div className="md:col-span-2">
