@@ -5,7 +5,6 @@ import {
   MAX_DEPTH,
   MAX_REQUESTS,
   MessageType,
-  PaidStatus,
   CrawlResult,
   PageResult
 } from './types'
@@ -29,7 +28,6 @@ export async function crawlWebsite({
   startUrl: string
   channelId: string
   inputRequests?: number
-  inputCost?: number
   inputDepth?: number
   skyfireKyaToken?: string
 }): Promise<CrawlResult> {
@@ -47,7 +45,6 @@ export async function crawlWebsite({
   const robotsTxt = await fetchRobotsTxt(startUrl, channelId)
   const robotsData = parseRobotsTxt(robotsTxt)
   const startTimeOverall = Date.now()
-  let totalCost = 0
   let totalTraversalSizeBytes = 0
               
   if (
@@ -56,7 +53,6 @@ export async function crawlWebsite({
   ) {
     return {
       results: [],
-      totalCost: 0,
       totalTimeSeconds: 0,
       totalTraversalSizeBytes: 0
     }
@@ -87,7 +83,6 @@ export async function crawlWebsite({
           {
             message: {
               type: MessageType.ERROR,
-              paid: PaidStatus.FAILED,
               request: {url: `Request to ${request.url} failed. Status: ${response.statusCode}`, headers:request.headers,  method:request.method}, 
               response: { text: `${contentBody}`, url: request.url, headers: response.headers},
             },
@@ -134,7 +129,6 @@ export async function crawlWebsite({
         const errorData = {
           message: {
             type: MessageType.ERROR,
-            paid: PaidStatus.FAILED,
             response: {text: response.body || "", url: request.url, headers: response.headers},
             request: {url: `Request to ${request.url} failed. Status: ${response.statusCode}`, headers: request.headers, method:request.method}
           }
@@ -159,12 +153,10 @@ export async function crawlWebsite({
   await requestQueue.drop()
   const totalTimeSeconds = (Date.now() - startTimeOverall) / 1000
   console.log(`Crawler finished. channelId: ${channelId}`)
-  console.log(`Total cost: ${totalCost}`)
   console.log(`Total crawl time: ${totalTimeSeconds}`)
   console.log(`Total traversal size: ${totalTraversalSizeBytes}`)
   return {
     results,
-    totalCost,
     totalTimeSeconds,
     totalTraversalSizeBytes
   }

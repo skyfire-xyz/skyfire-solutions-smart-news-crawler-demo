@@ -1,9 +1,8 @@
-import express from "express";
+import express, { RequestHandler } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import { connectRedis, disconnectRedis } from "./lib/redis";
-import { startExpiryMonitor } from "./services/session-expiry-monitor";
 import usageTrack from "./middleware/usage-track";
 import verifyHeader from "./middleware/verify-header";
 import { createProxyMiddleware } from "http-proxy-middleware";
@@ -20,6 +19,36 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Add request logging middleware
+app.use((req, res, next) => {
+  const startTime = Date.now();
+  
+  logger.info({
+    method: req.method,
+    url: req.url,
+    userAgent: req.get('User-Agent'),
+    ip: req.ip || req.connection.remoteAddress,
+    headers: {
+      'content-type': req.get('Content-Type'),
+      'authorization': req.get('Authorization') ? '[REDACTED]' : undefined,
+    }
+  }, 'Proxy request received');
+
+  // Log response when it finishes
+  res.on('finish', () => {
+    const duration = Date.now() - startTime;
+    logger.info({
+      method: req.method,
+      url: req.url,
+      statusCode: res.statusCode,
+      duration: `${duration}ms`,
+      ip: req.ip || req.connection.remoteAddress,
+    }, 'Proxy request completed');
+  });
+
+  next();
+});
+
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
@@ -32,24 +61,92 @@ app.use(verifyHeader); // if you have JWT verification
 app.use(attachLogTraceContext);
 
 // Step 2: Track usage and Charge
-app.use(usageTrack);
+app.use(usageTrack as unknown as RequestHandler);
 
 // Step 3: Proxy the request if the token is valid.
+const envProxyTarget = process.env.PROXY_TARGET;
+const defaultTarget = "https://demo-real-estate-prv4.onrender.com/";
+
+// Handle empty, null, or undefined PROXY_TARGET
+let proxyTarget: string;
+if (!envProxyTarget || envProxyTarget.trim() === '') {
+  proxyTarget = defaultTarget;
+  logger.info({ 
+    reason: 'PROXY_TARGET is empty or not set',
+    envValue: envProxyTarget,
+    usingDefault: true
+  }, 'Using default proxy target');
+} else {
+  proxyTarget = envProxyTarget.trim();
+}
+
+// Validate proxy target URL
+logger.info({ 
+  proxyTarget, 
+  envValue: envProxyTarget,
+  length: proxyTarget.length 
+}, 'Proxy target validation');
+
+try {
+  const url = new URL(proxyTarget);
+  logger.info({ 
+    proxyTarget,
+    protocol: url.protocol,
+    hostname: url.hostname,
+    port: url.port,
+    pathname: url.pathname
+  }, 'Proxy target configured successfully');
+} catch (error) {
+  logger.error({ 
+    error: error instanceof Error ? error.message : String(error), 
+    proxyTarget,
+    envValue: envProxyTarget,
+    length: proxyTarget.length,
+    charCodes: proxyTarget.split('').map(c => c.charCodeAt(0))
+  }, 'Invalid proxy target URL');
+  
+  // Try to use default if the env value is invalid
+  if (envProxyTarget && envProxyTarget.trim() !== '') {
+    logger.info('Attempting to use default proxy target as fallback');
+    try {
+      const defaultUrl = new URL(defaultTarget);
+      proxyTarget = defaultTarget;
+      logger.info({ 
+        proxyTarget: defaultTarget,
+        protocol: defaultUrl.protocol,
+        hostname: defaultUrl.hostname,
+        port: defaultUrl.port,
+        pathname: defaultUrl.pathname
+      }, 'Using default proxy target as fallback');
+    } catch (fallbackError) {
+      logger.error({ error: fallbackError instanceof Error ? fallbackError.message : String(fallbackError) }, 'Default proxy target is also invalid');
+      process.exit(1);
+    }
+  } else {
+    process.exit(1);
+  }
+}
+
 app.use(
-  "/",
   createProxyMiddleware({
-    target:
-      process.env.PROXY_TARGET || "https://demo-real-estate-prv4.onrender.com/",
+    target: proxyTarget,
     changeOrigin: true,
+    pathFilter: (pathname) => {
+      // Don't proxy health check endpoint
+      return pathname !== '/health';
+    }
   })
 );
+
+// Error handling middleware
+app.use((err: Error, req: any, res: any, _next: any) => {
+  logger.error({ error: err, url: req.url }, 'Proxy middleware error');
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 const startServer = async (): Promise<void> => {
   try {
     await connectRedis();
-
-    // Start session expiry monitor (works with any Redis service)
-    await startExpiryMonitor();
 
     app.listen(PORT, () => {
       logger.info(`Proxy server running on port ${PORT}`);

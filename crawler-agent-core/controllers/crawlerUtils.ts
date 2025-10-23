@@ -6,7 +6,6 @@ import {
   CRAWLER,
   MessageType,
   PAGE_MAX_LENGTH,
-  PaidStatus,
   RobotsTxtData
 } from './types'
 
@@ -58,7 +57,6 @@ export async function fetchRobotsTxt(
           title: 'robots.txt',
           request: {url: robotsUrl, headers:"",  method:""}, 
           response: {text: robotsTxt.substring(0, 5000), url: robotsUrl, headers:""}, 
-          paid: PaidStatus.FREE,
           depth: 0,
       }
     }
