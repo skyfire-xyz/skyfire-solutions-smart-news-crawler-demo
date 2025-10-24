@@ -15,7 +15,7 @@ const JWKS = createRemoteJWKSet(new URL(JWKS_URL));
 export default async function verifyHeader(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
   // Only verify token if request is from a bot
   if (!isBotRequest(req)) {
@@ -26,7 +26,7 @@ export default async function verifyHeader(
   const skyfireToken = req.header("skyfire-pay-id") || "";
 
   if (!skyfireToken) {
-    res.status(402).json({ error: "Missing Kya token `skyfire-pay-id`. Please create an account at https://app.skyfire.xyz and create a kya token - https://docs.skyfire.xyz/reference/create-token."});
+    res.status(402).json({ error: "Missing Kya token `skyfire-pay-id`. Please create an account at https://app.skyfire.xyz and create a kya token - https://docs.skyfire.xyz/reference/create-token." });
     return;
   }
 

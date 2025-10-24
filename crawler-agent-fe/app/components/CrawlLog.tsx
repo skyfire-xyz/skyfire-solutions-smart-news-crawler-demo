@@ -42,8 +42,8 @@ export default function CrawlLog({
   }, [log])
 
   return (
-    <div className="h-full w-full">
-      <div ref={logRef} className="h-full max-h-[500px] rounded-lg border border-gray-300 bg-gray-50 p-4 flex flex-col overflow-y-auto">
+    <div className="size-full">
+      <div ref={logRef} className="flex h-full max-h-[500px] flex-col overflow-y-auto rounded-lg border border-gray-300 bg-gray-50 p-4">
         <h2 className="mb-2 text-xl font-bold dark:text-white">
           Crawled Pages
         </h2>
@@ -61,7 +61,7 @@ export default function CrawlLog({
                       <div className="flex items-center gap-2">
                         <Badge
                           variant={getBadgeVariant("FAILED")}
-                          className="text-xs px-2 py-0.5"
+                          className="px-2 py-0.5 text-xs"
                         >
                           FAILED
                         </Badge>
@@ -111,7 +111,7 @@ export default function CrawlLog({
 
         {errorMessages.map((error, index) => (
           <AlertUI variant="destructive" key={index} className="mt-4">
-            <ExclamationTriangleIcon className="h-4 w-4" />
+            <ExclamationTriangleIcon className="size-4" />
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error.message}</AlertDescription>
           </AlertUI>

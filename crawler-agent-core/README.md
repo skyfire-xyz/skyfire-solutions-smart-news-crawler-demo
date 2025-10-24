@@ -5,17 +5,13 @@ This is an Express application with crawling logic for web crawler
 ### Pre-requisites
 
 1. Approved Seller Service with Seller Skyfire API Key:
+
 - Follow the [Skyfire Platform Setup Guide](https://docs.skyfire.xyz/docs/introduction) to create a seller account and seller service.
 
 2. Pusher Credentials:
-- Create a Pusher Account and App:
-      - Go to the Pusher website and create a new account or sign in to your existing one. 
-      - Navigate to the Pusher Channels dashboard and create a new app. 
-      - Give your app a name and select a cluster (region) closest to your users to minimize latency. 
-- Get Your Pusher Credentials:
-      - After creating the app, find and click on it in the dashboard. 
-      - Go to the "App Keys" tab to find your app_id, key, secret, and cluster. 
-      - Store these credentials securely, as they will be needed to configure your application. 
+
+- Create a Pusher Account and App: - Go to the Pusher website and create a new account or sign in to your existing one. - Navigate to the Pusher Channels dashboard and create a new app. - Give your app a name and select a cluster (region) closest to your users to minimize latency.
+- Get Your Pusher Credentials: - After creating the app, find and click on it in the dashboard. - Go to the "App Keys" tab to find your app_id, key, secret, and cluster. - Store these credentials securely, as they will be needed to configure your application.
 
 ### Installation Steps
 
@@ -58,18 +54,19 @@ If you would like to run this app locally -
 To make token-based authentication and bot identification reusable and easy to integrate, Skyfire provides a utility called `skyfireKyaTokenHook`. This hook is designed to be used with Crawlee's `CheerioCrawler` and ensures that every outgoing request includes the necessary Skyfire KYA token and a bot identifier header by injecting in `preNavigationHooks` hooks before each navigation.
 
 **Source code (controllers/skyfireKyaTokenHook.ts):**
+
 ```ts
 export function skyfireKyaTokenHook(token: string) {
   return async (crawlingContext, gotOptions) => {
     crawlingContext.request.headers = {
       ...crawlingContext.request.headers,
       "skyfire-pay-id": token ?? "",
-      "x-isbot": "true"
+      "x-isbot": "true",
     };
     gotOptions.headers = {
       ...gotOptions.headers,
       "skyfire-pay-id": token ?? "",
-      "x-isbot": "true"
+      "x-isbot": "true",
     };
   };
 }
@@ -80,13 +77,13 @@ The `x-isbot: true` header is used in this demo to help protected sites distingu
 #### Usage of the Hook with CheerioCrawler
 
 ```ts
-import { CheerioCrawler } from 'crawlee';
-import { skyfireKyaTokenHook } from './controllers/skyfireKyaTokenHook';
+import { CheerioCrawler } from "crawlee";
+import { skyfireKyaTokenHook } from "./controllers/skyfireKyaTokenHook";
 
-const token = 'YOUR_KYA_TOKEN';
+const token = "YOUR_KYA_TOKEN";
 
 const crawler = new CheerioCrawler({
   preNavigationHooks: [skyfireKyaTokenHook(token)],
-    // ...other options
+  // ...other options
 });
 ```

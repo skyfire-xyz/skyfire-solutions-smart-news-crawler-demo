@@ -5,7 +5,7 @@ import logger from "../services/logger";
 export default function identifyBot(
   req: Request,
   _res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   // Currently Identify Bot as a bot if the header is set to true
   const testBotHeader = req.header("x-isbot");
@@ -14,8 +14,8 @@ export default function identifyBot(
     (req as BotRequest).isBot = true;
     logger.info(
       `[Bot] Bot identified - IP: ${req.ip}, User-Agent: ${req.get(
-        "User-Agent"
-      )}`
+        "User-Agent",
+      )}`,
     );
     return next();
   }

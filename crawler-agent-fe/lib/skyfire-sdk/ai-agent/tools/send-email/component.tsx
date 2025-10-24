@@ -19,9 +19,9 @@ export const Component: React.FC<{
       className="mb-4"
     >
       {result.success ? (
-        <CheckCircle className="h-4 w-4" />
+        <CheckCircle className="size-4" />
       ) : (
-        <AlertCircle className="h-4 w-4" />
+        <AlertCircle className="size-4" />
       )}
       <AlertTitle>{result.success ? "Success" : "Error"}</AlertTitle>
       <AlertDescription>

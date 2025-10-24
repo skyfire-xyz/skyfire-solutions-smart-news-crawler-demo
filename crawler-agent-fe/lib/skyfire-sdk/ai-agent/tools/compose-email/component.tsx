@@ -42,7 +42,7 @@ export const Component: React.FC<{
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto mb-4">
+    <Card className="mx-auto mb-4 w-full max-w-md">
       {!canceled && (
         <CardHeader>
           <CardTitle className="text-lg">Compose Email</CardTitle>

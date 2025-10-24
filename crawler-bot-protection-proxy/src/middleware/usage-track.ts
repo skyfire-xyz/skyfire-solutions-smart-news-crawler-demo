@@ -4,7 +4,7 @@ import logger from "../services/logger";
 
 export default async function usageTrack(
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> {
 

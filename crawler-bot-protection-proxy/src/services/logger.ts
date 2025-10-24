@@ -19,7 +19,7 @@ const ddOptions = {
 if (apiKey && ddEnabled) {
   // eslint-disable-next-line no-console
   console.log(
-    "[Logger] Datadog logging is ENABLED: logs will be sent to Datadog."
+    "[Logger] Datadog logging is ENABLED: logs will be sent to Datadog.",
   );
 }
 
@@ -30,17 +30,17 @@ const logger = pino({
   transport:
     apiKey && ddEnabled
       ? {
-          target: "pino-datadog-transport",
-          options: ddOptions,
-        }
+        target: "pino-datadog-transport",
+        options: ddOptions,
+      }
       : {
-          target: "pino-pretty",
-          options: {
-            colorize: true,
-            translateTime: "SYS:standard",
-            ignore: "pid,hostname",
-          },
+        target: "pino-pretty",
+        options: {
+          colorize: true,
+          translateTime: "SYS:standard",
+          ignore: "pid,hostname",
         },
+      },
 });
 
 export default logger;
@@ -49,7 +49,7 @@ export default logger;
 export function attachLogTraceContext(
   req: Request,
   _: Response,
-  next: NextFunction
+  next: NextFunction,
 ) {
   const jti = (req as any).decodedJWT?.jti;
   const userId = (req as any).decodedJWT?.sub;

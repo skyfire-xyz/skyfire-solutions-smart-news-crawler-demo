@@ -179,13 +179,13 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         autoComplete="off"
                       />
                       {isFocused && (
-                        <div className="absolute w-full mt-1 bg-white border rounded-md shadow-lg z-10 max-h-60 overflow-y-auto">
+                        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
                           {suggestions.map((suggestion, index) => (
                             <div
                               key={suggestion.url}
-                              className={`px-4 py-3 cursor-pointer border-b last:border-b-0 ${
+                              className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
                                 index === selectedIndex
-                                  ? "bg-blue-50 border-blue-200"
+                                  ? "border-blue-200 bg-blue-50"
                                   : "hover:bg-gray-50"
                               }`}
                               onClick={() => {
@@ -195,9 +195,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
                               }}
                             >
                               <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3 flex-1 min-w-0">
+                                <div className="flex min-w-0 flex-1 items-center gap-3">
                                   <span
-                                    className={`px-2 py-1 text-xs rounded-full px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-800 ${
+                                    className={`rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-800 ${
                                       suggestion.type === "Protected" 
                                         ? "mr-4" 
                                         : ""
@@ -205,11 +205,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
                                   >
                                     {suggestion.type}
                                   </span>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="font-medium text-sm text-gray-900 truncate">
+                                  <div className="min-w-0 flex-1">
+                                    <div className="truncate text-sm font-medium text-gray-900">
                                       {suggestion.name}
                                     </div>
-                                    <div className="text-xs text-gray-500 truncate mt-1">
+                                    <div className="mt-1 truncate text-xs text-gray-500">
                                       {suggestion.url}
                                     </div>
                                   </div>

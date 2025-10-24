@@ -64,7 +64,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem={false}
           >
             <SkyfireProvider>
-              <div className="relative flex min-h-screen flex-col ml-5">
+              <div className="relative ml-5 flex min-h-screen flex-col">
                 <TopBar />
                 <NavTabs />
 

@@ -75,10 +75,10 @@ export default function CrawlWithTokenPage() {
     }
 
     return (
-        <div className="w-full p-6 bg-[#fafbfc] min-h-screen flex flex-col">
-            <div className="flex flex-col gap-1 mb-2">
+        <div className="flex min-h-screen w-full flex-col bg-[#fafbfc] p-6">
+            <div className="mb-2 flex flex-col gap-1">
               <button
-                className="px-6 py-2 border border-gray-600 text-gray-600 rounded font-semibold bg-white hover:bg-gray-50 transition w-fit"
+                className="w-fit rounded border border-gray-600 bg-white px-6 py-2 font-semibold text-gray-600 transition hover:bg-gray-50"
                 onClick={() => setShowApiKeyInput(!showApiKeyInput)}
               >
                 Try with your own API key? (Optional)
@@ -87,69 +87,69 @@ export default function CrawlWithTokenPage() {
                 href="https://docs.skyfire.xyz/docs/introduction"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-2 text-gray-800 font-semibold text-sm hover:underline"
+                className="py-2 text-sm font-semibold text-gray-800 hover:underline"
               >
                 Refer to Skyfire Platform Guide for creating API key
               </a>
             </div>
             {showApiKeyInput && (
-              <div className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col gap-4 shadow-md mt-4 w-full mb-6">
-                <div className="flex items-center gap-3 w-full">
-                  <span className="text-gray-500 text-sm">Enter your API Key:</span>
+              <div className="mb-6 mt-4 flex w-full flex-col gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-md">
+                <div className="flex w-full items-center gap-3">
+                  <span className="text-sm text-gray-500">Enter your API Key:</span>
                   <input
                     type="text"
                     value={userApiKey}
                     onChange={e => setUserApiKey(e.target.value)}
-                    className="font-bold border border-gray-300 rounded px-3 py-2 w-96 max-w-full focus:outline-none focus:ring-2 focus:ring-blue-200 bg-gray-50 text-gray-900"
+                    className="w-96 max-w-full rounded border border-gray-300 bg-gray-50 px-3 py-2 font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200"
                   />
                 </div>
               </div>
             )}
-            <h2 className="text-2xl font-bold mb-1">Step 1: Create KYA Token</h2>
+            <h2 className="mb-1 text-2xl font-bold">Step 1: Create KYA Token</h2>
             <div className="mb-6">
-              <div className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col gap-4 shadow-md mt-6 w-full">
+              <div className="mt-6 flex w-full flex-col gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-md">
                 <div className="flex items-center gap-3">
-                  <span className="text-gray-500 text-sm">Seller Service:</span>
-                  <span className="font-semibold text-base text-gray-900">{SELLER_SERVICE.name}</span>
+                  <span className="text-sm text-gray-500">Seller Service:</span>
+                  <span className="text-base font-semibold text-gray-900">{SELLER_SERVICE.name}</span>
                 </div>
               </div>
             </div>
-            <div className="break-all text-red-600 text-base font-semibold">
+            <div className="break-all text-base font-semibold text-red-600">
               {error}
             </div>
             {
             kyaToken ? 
             <>
-              <div className="flex gap-2 mt-4">
+              <div className="mt-4 flex gap-2">
                   <button
-                      className="px-6 py-2 bg-black text-white rounded font-semibold hover:bg-gray-800 transition disabled:opacity-60"
+                      className="rounded bg-black px-6 py-2 font-semibold text-white transition hover:bg-gray-800 disabled:opacity-60"
                       onClick={handleStartOver}
                   >
                       ↻ Start Over
                   </button>
               </div>
               <div>
-                <h2 className="text-2xl font-bold mt-5 mb-1">Step 2: Inspect the created token</h2>
-                <div className="bg-white shadow-md rounded-lg p-6 mt-6 w-full border border-gray-200 flex flex-col gap-4">
+                <h2 className="mb-1 mt-5 text-2xl font-bold">Step 2: Inspect the created token</h2>
+                <div className="mt-6 flex w-full flex-col gap-4 rounded-lg border border-gray-200 bg-white p-6 shadow-md">
                     
-                      <div className="break-all text-gray-900 text-base">
+                      <div className="break-all text-base text-gray-900">
                         {kyaToken}
                       </div>
                       <button
-                        className="px-6 py-2 bg-black text-white rounded font-semibold hover:bg-gray-800 transition mb-4 mt-2 w-fit"
+                        className="mb-4 mt-2 w-fit rounded bg-black px-6 py-2 font-semibold text-white transition hover:bg-gray-800"
                         onClick={handleDecodeToken}
                       >
                         Decode Token
                       </button>
                       {decodedToken && (
-                        <div className="mt-4 bg-gray-50 border border-gray-200 rounded p-3 text-sm text-gray-900 overflow-x-auto">
+                        <div className="mt-4 overflow-x-auto rounded border border-gray-200 bg-gray-50 p-3 text-sm text-gray-900">
                           {decodedToken.error ? (
                             <div className="text-red-600">{decodedToken.error}</div>
                           ) : (
                             <>
-                              <div className="font-semibold mb-1">Header:</div>
+                              <div className="mb-1 font-semibold">Header:</div>
                               <pre className="mb-2 whitespace-pre-wrap break-all">{JSON.stringify(decodedToken.header, null, 2)}</pre>
-                              <div className="font-semibold mb-1">Payload:</div>
+                              <div className="mb-1 font-semibold">Payload:</div>
                               <pre className="whitespace-pre-wrap break-all">{JSON.stringify(decodedToken.payload, null, 2)}</pre>
                             </>
                           )}
@@ -157,7 +157,7 @@ export default function CrawlWithTokenPage() {
                       )}
                 </div>
                 <div className="mt-8">
-                  <h2 className="text-2xl font-bold mb-1">Step 3: Select website to crawl</h2>
+                  <h2 className="mb-1 text-2xl font-bold">Step 3: Select website to crawl</h2>
                   <div className="mt-6">
                     <CrawlSearchLog skyfireKyaToken={kyaToken} />
                   </div>
@@ -165,9 +165,9 @@ export default function CrawlWithTokenPage() {
                 </div>
                 </>
              :  
-              <div className="flex flex-col gap-2 mt-4">
+              <div className="mt-4 flex flex-col gap-2">
                 <button
-                  className="px-6 py-2 bg-black text-white rounded font-semibold hover:bg-gray-800 transition disabled:opacity-60 w-fit"
+                  className="w-fit rounded bg-black px-6 py-2 font-semibold text-white transition hover:bg-gray-800 disabled:opacity-60"
                   onClick={handleCreateToken}
                 >
                   Create Token

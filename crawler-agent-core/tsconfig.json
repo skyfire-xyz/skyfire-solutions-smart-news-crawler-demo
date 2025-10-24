@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
-    "rootDirs": ["./"],
+    "rootDirs": ["./"]
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules"]

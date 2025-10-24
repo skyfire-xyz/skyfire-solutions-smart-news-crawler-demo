@@ -17,7 +17,7 @@ export const Component: React.FC<{
         {images.map((image) => (
           <div
             key={image.imageURL}
-            className="relative group"
+            className="group relative"
             style={{ width: IMAGE_WIDTH, height: IMAGE_HEIGHT }}
           >
             <Image
@@ -27,9 +27,9 @@ export const Component: React.FC<{
               objectFit="cover"
               className="rounded-lg"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-70 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-4 rounded-lg">
+            <div className="absolute inset-0 flex flex-col justify-between rounded-lg bg-black bg-opacity-70 p-4 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               <div className="overflow-hidden">
-                <h2 className="text-sm font-semibold line-clamp-1">
+                <h2 className="line-clamp-1 text-sm font-semibold">
                   {image.name}
                 </h2>
               </div>

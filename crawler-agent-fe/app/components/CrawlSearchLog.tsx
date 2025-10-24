@@ -65,7 +65,7 @@ export default function CrawlSearchLog({ skyfireKyaToken }: CrawlSearchLogProps)
 
   return (
     <div>
-      <div className="md:relative flex-col items-center justify-center mb-8">
+      <div className="mb-8 flex-col items-center justify-center md:relative">
         <SearchBar
           onSearch={handleSearch}
           channelId={channelId}

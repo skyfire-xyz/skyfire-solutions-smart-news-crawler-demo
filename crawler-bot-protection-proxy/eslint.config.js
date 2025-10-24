@@ -21,6 +21,7 @@ module.exports = [
         global: 'readonly',
         setImmediate: 'readonly',
         clearImmediate: 'readonly',
+        URL: 'readonly',
       },
     },
     plugins: {
