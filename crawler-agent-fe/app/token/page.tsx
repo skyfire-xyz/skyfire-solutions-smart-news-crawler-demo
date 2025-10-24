@@ -82,37 +82,31 @@ export default function CrawlWithTokenPage() {
             <PageLayout>
                 <div className="space-y-6">
                     {/* API Key Section */}
-                    <div className="bg-blue-50 rounded-lg border border-gray-200 p-4 shadow-sm">
-                        <div className="mb-4">
-                            <button
-                                className="w-fit rounded border border-gray-600 bg-white px-6 py-2 font-semibold text-gray-600 transition hover:bg-gray-50"
-                                onClick={() => setShowApiKeyInput(!showApiKeyInput)}
-                            >
-                                Try with your own API key? (Optional)
-                            </button>
+                    <div className="bg-blue-10 rounded-lg border border-gray-200 p-4 shadow-sm">
+                        <h2 className="mb-4 text-sm font-semibold text-gray-900">Try with your own API key? (Optional)</h2>
+                        
+                        <div className="flex items-center space-x-2">
+                            <div className="relative flex-1">
+                                <input
+                                    type="text"
+                                    placeholder="Enter your API key"
+                                    value={userApiKey}
+                                    onChange={e => setUserApiKey(e.target.value)}
+                                    className="w-full h-12 text-base rounded-md border border-gray-300 bg-white px-3 py-2 focus:outline-none"
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="mt-2">
                             <a
                                 href="https://docs.skyfire.xyz/docs/introduction"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="ml-4 text-sm font-semibold text-gray-800 hover:underline"
+                                className="text-sm font-semibold text-gray-800 hover:underline"
                             >
-                                Refer to Skyfire Platform Guide for creating API key
+                                Refer to the Skyfire Guides to learn how to create an API key
                             </a>
                         </div>
-                        
-                        {showApiKeyInput && (
-                            <div className="mt-4 flex w-full flex-col gap-4 rounded-xl border border-gray-200 bg-white p-6 shadow-md">
-                                <div className="flex w-full items-center gap-3">
-                                    <span className="text-sm text-gray-500">Enter your API Key:</span>
-                                    <input
-                                        type="text"
-                                        value={userApiKey}
-                                        onChange={e => setUserApiKey(e.target.value)}
-                                        className="w-96 max-w-full rounded border border-gray-300 bg-gray-50 px-3 py-2 font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                                    />
-                                </div>
-                            </div>
-                        )}
                     </div>
 
                     {/* Token Creation Section */}

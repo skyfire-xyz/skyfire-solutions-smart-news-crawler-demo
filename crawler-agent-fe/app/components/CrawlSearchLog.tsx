@@ -66,7 +66,7 @@ export default function CrawlSearchLog({ skyfireKyaToken }: CrawlSearchLogProps)
   return (
     <div className="space-y-6">
       {/* Website URL Section with Border */}
-      <div className="bg-blue-10 rounded-lg border border-gray-200 p-4 shadow-sm">
+      <div className="bg-blue-50 rounded-lg border border-gray-200 p-4 shadow-sm">
         <div className="mb-4">
           <h2 className="mb-4 text-sm font-semibold text-gray-900">Website URL</h2>
           <SearchBar
@@ -82,7 +82,7 @@ export default function CrawlSearchLog({ skyfireKyaToken }: CrawlSearchLogProps)
 
       {/* Crawled Pages Section */}
       <h2 className="mb-4 text-xl font-semibold text-gray-900">Crawled Pages</h2>
-      <div className="bg-blue-10 rounded-lg border border-gray-200 p-3 shadow-sm">
+      <div className="bg-blue-50 rounded-lg border border-gray-200 p-3 shadow-sm">
         {log.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed border-gray-300 rounded-lg">
             <p className="text-gray-500">No pages crawled yet. Enter a URL and click Crawl to get started.</p>

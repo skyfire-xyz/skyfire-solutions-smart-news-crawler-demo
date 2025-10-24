@@ -15,8 +15,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "react-toastify/dist/ReactToastify.css"
 import { getClientConfig } from "@/lib/client-config"
 
-import NavTabs from "./components/NavTabs"
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -50,7 +48,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "min-h-screen bg-white font-sans antialiased",
+          "min-h-screen bg-gradient-to-tr from-blue-100 via-indigo-100 to-purple-50 font-sans antialiased",
           fontSans.variable
         )}
       >
