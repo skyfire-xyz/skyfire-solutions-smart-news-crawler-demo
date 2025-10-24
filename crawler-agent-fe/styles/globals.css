@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --border: 215 20% 80%;
+    --input: 215 20% 80%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    --primary: 220 14% 96%;
+    --primary-foreground: 220 9% 46%;
+
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 215 20% 80% / 0;
+
+    --radius: 0.5rem;
+
+    --badge-background: 142 76% 36%;
+    --badge-foreground: 210 40% 98%;
+
+    --topbar-bg: 0 0% 0%;
+    --topbar-text: 0 0% 100%;
+
+    --divider: 221 83% 53%;
+
+    --payment-border: 221 83% 53%;      /* blue-800 */
+    --payment-bg: 224 71% 4%;           /* gray-900 */
+    --payment-text: 0 0% 100%;          /* white */
+  }
+
+  .dark {
+    --background: 0 0% 11%;
+    --foreground: 0 0% 100%;
+    
+    --topbar-bg: 0 0% 85%;
+    --topbar-text: 0 0% 0%;
+
+    --divider: 221 83% 53%;
+
+    --payment-border: 0 0% 83%;         /* gray-300 */
+    --payment-bg: 0 0% 100%;            /* white */
+    --payment-text: 215 28% 17%;        /* gray-900 */
+  }
+
+  .cequence {
+    --topbar-bg: 0 0% 100%;
+    --topbar-text: 0 0% 0%;
+    --topbar-logo: 0.4rem;
+    --divider: 183 100% 37%;
+    --payment-bg: 201 52% 9%;           /* Cequence dark blue-green (#0B1A24) */
+    --payment-text: 0 0% 100%;          /* white */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Add gradient utilities */
+.bg-cequence-gradient {
+  background: linear-gradient(135deg, #0B1A24 0%, #00B6BE 100%);
+}
+
+.text-cequence-gradient {
+  background: linear-gradient(135deg, #38E8F4 0%, #00B6BE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

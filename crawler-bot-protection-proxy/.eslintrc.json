@@ -1,0 +1,43 @@
+{
+  "root": true,
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "overrides": [
+    {
+      "files": ["src/**/*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+      },
+      "plugins": ["@typescript-eslint"],
+      "env": {
+        "node": true
+      },
+      "globals": {
+        "console": "readonly",
+        "process": "readonly",
+        "__dirname": "readonly",
+        "__filename": "readonly",
+        "Buffer": "readonly",
+        "global": "readonly",
+        "setImmediate": "readonly",
+        "clearImmediate": "readonly"
+      },
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { "argsIgnorePattern": "^_" }
+        ],
+        "@typescript-eslint/no-explicit-any": "warn",
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"],
+        "indent": ["error", 2],
+        "comma-dangle": ["error", "always-multiline"],
+        "object-curly-spacing": ["error", "always"],
+        "array-bracket-spacing": ["error", "never"]
+      }
+    }
+  ]
+}
