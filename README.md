@@ -70,7 +70,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 4. Protected Website:
 
-- Available at: [https://demo-real-estate-prv4.onrender.com/](https://demo-real-estate-prv4.onrender.com/)
+- Available at: [https://demo-mock-news.onrender.com/](https://demo-mock-news.onrender.com/)
 - Purpose: Simulates valuable content that requires paid access from crawler bots.
 
 ### Installation Steps

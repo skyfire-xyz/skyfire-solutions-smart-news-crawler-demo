@@ -12,7 +12,7 @@ A Node.js/Express proxy service with bot protection and Redis-based usage tracki
 
 ## Live Demo Link
 
-You can play with the live demo [here](https://real-estate-list-scraping-demo.skyfire.xyz/).
+You can play with the live demo [here](https://demo-mock-news.onrender.com/).
 
 ## 💳 How Proxy Charges Token
 
@@ -123,7 +123,7 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 
 # Proxy URL
-PROXY_TARGET=<your_website> or use our real estate demo website https://demo-real-estate-prv4.onrender.com/
+PROXY_TARGET=<your_website> or use our mock news demo website https://demo-mock-news.onrender.com/
 
 # API
 SKYFIRE_API_URL="https://api.skyfire.xyz"

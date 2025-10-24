@@ -45,7 +45,7 @@ interface Suggestion {
 
 const suggestions: Suggestion[] = [
   { url: "https://skyfire.xyz", name: "Skyfire", type: "Unprotected" },
-  { url: "https://real-estate-list-scraping-demo.skyfire.xyz/", name: "Real Estate", type: "Protected"}
+  { url: "https://demo-mock-news.onrender.com/", name: "MockNews", type: "Protected"}
 ]
 
 const SearchBar: React.FC<SearchBarProps> = ({
