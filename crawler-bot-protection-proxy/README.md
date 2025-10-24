@@ -5,7 +5,7 @@ A Node.js/Express proxy service with bot protection and Redis-based usage tracki
 ## Features Overview
 
 - **Bot Identification** - Identifies bot requests via `x-isbot: true` header, human requests bypass token verification
-- **Kya+Pay Token Verification** - Validates `skyfire-pay-id` JWT tokens with signature verification and seller service association
+- **Kya Token Verification** - Validates `skyfire-pay-id` JWT tokens with signature verification and seller service association
 - **Usage Tracking & Charging** - Redis-based session management with incremental charging and batch processing
 - **Request Proxying** - Forwards valid requests to target website
 - **Session Expiration** - Automatic cleanup with final charging on expiry
@@ -68,23 +68,16 @@ sequenceDiagram
 - Human requests (without the header) bypass token verification and usage tracking
 - Bot requests proceed to the next steps
 
-### Step 1: Kya+Pay Token Verification
+### Step 1: Kya Token Verification
 
 - Validates the `skyfire-pay-id` JWT token in the request header
 - Verifies token signature, issuer, audience, and expiration
 - Ensures the token is associated with the correct seller service
 - Returns 401 Unauthorized for invalid or missing tokens
 
-### Step 2: Usage Tracking & Charging
+### Step 2: Usage Tracking
 
 - **Session Management**: Creates Redis-based sessions for each token
-- **Initial Charge**: Charges the token for the first request in a session (In order to get the current balance of the token)
-- **Batch Processing**: Accumulates charges and processes them in batches once it hits threshold (configured via `BATCH_AMOUNT_THRESHOLD` default 0.1)
-- **Threshold Monitoring**: Tracks remaining balance and maximum request limits
-- **Payment Required**: Returns 402 Payment Required when:
-  - Insufficient balance for next request
-  - Maximum request count reached
-  - Token charging fails
 
 ### Step 3: Request Proxying
 
