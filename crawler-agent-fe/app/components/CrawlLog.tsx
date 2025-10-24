@@ -80,14 +80,9 @@ export default function CrawlLog({
                     <div className="flex items-center gap-2">
                       {(
                         <>
+                        { /* TODO remove hardcode accepted*/ } 
                         <span className="text-xs text-gray-500 dark:text-gray-300">
-                          Total Charged: {entry.response.headers["x-payment-charged"] || "N/A"}
-                        </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-300">
-                          Remaining Balance: {entry.response.headers["x-payment-session-remaining-balance"] || "N/A"}
-                        </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-300">
-                          Pending Charges: {entry.response.headers["x-payment-session-accumulated-amount"] || "N/A"}
+                          KYA token verified & accepted
                         </span>
                         </>
                       )}

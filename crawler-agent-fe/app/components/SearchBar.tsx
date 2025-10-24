@@ -185,7 +185,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                               key={suggestion.url}
                               className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
                                 index === selectedIndex
-                                  ? "border-blue-200 bg-blue-10"
+                                  ? "border-blue-200 bg-gray-50"
                                   : "hover:bg-gray-50"
                               }`}
                               onClick={() => {
