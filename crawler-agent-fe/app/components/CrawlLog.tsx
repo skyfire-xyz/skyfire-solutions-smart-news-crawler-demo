@@ -43,11 +43,7 @@ export default function CrawlLog({
 
   return (
     <div className="size-full">
-      <div ref={logRef} className="flex h-full max-h-[500px] flex-col overflow-y-auto rounded-lg border border-gray-300 bg-gray-50 p-4">
-        <h2 className="mb-2 text-xl font-bold dark:text-white">
-          Crawled Pages
-        </h2>
-
+      <div ref={logRef} className="flex h-full max-h-[500px] flex-col overflow-y-auto rounded-lg border border-gray-300 bg-blue-10 p-4">
         <ul className="flex-1">
           {[...log].reverse().map((entry, index) => {
             if (!entry.request.url) {

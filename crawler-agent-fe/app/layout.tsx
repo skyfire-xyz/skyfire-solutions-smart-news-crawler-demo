@@ -16,7 +16,6 @@ import "react-toastify/dist/ReactToastify.css"
 import { getClientConfig } from "@/lib/client-config"
 
 import NavTabs from "./components/NavTabs"
-import TopBar from "./components/TopBar"
 
 export const metadata: Metadata = {
   title: {
@@ -64,10 +63,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem={false}
           >
             <SkyfireProvider>
-              <div className="relative ml-5 flex min-h-screen flex-col">
-                <TopBar />
-                <NavTabs />
-
+              <div className="relative flex min-h-screen flex-col">
                 <div className="flex-1">{children}</div>
               </div>
               <TailwindIndicator />

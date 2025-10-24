@@ -6,6 +6,9 @@ import Pusher from "pusher-js"
 import { v4 as uuidv4 } from "uuid"
 import { MessageData } from "./types"
 import CrawlSearchLog from "./components/CrawlSearchLog";
+import NavTabs from "./components/NavTabs";
+import TopBar from "./components/TopBar"
+import PageLayout from "./components/PageLayout"
 
 const channelId = uuidv4()
 
@@ -55,11 +58,11 @@ export default function App() {
   }, [])
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="h-5" />
-      <div className="container mx-auto px-4">
-        <CrawlSearchLog skyfireKyaToken={skyfireKyaToken} />
-      </div>
-    </div>
+    <>
+    <TopBar />
+    <PageLayout>
+      <CrawlSearchLog skyfireKyaToken={skyfireKyaToken} />
+    </PageLayout>
+    </>
   )
 }
