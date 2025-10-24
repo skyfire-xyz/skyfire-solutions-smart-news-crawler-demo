@@ -43,11 +43,7 @@ export default function CrawlLog({
 
   return (
     <div className="size-full">
-      <div ref={logRef} className="flex h-full max-h-[500px] flex-col overflow-y-auto rounded-lg border border-gray-300 bg-gray-50 p-4">
-        <h2 className="mb-2 text-xl font-bold dark:text-white">
-          Crawled Pages
-        </h2>
-
+      <div ref={logRef} className="flex h-full max-h-[500px] flex-col overflow-y-auto rounded-lg border border-gray-300 bg-blue-10 p-4">
         <ul className="flex-1">
           {[...log].reverse().map((entry, index) => {
             if (!entry.request.url) {
@@ -84,14 +80,9 @@ export default function CrawlLog({
                     <div className="flex items-center gap-2">
                       {(
                         <>
+                        { /* TODO remove hardcode accepted*/ } 
                         <span className="text-xs text-gray-500 dark:text-gray-300">
-                          Total Charged: {entry.response.headers["x-payment-charged"] || "N/A"}
-                        </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-300">
-                          Remaining Balance: {entry.response.headers["x-payment-session-remaining-balance"] || "N/A"}
-                        </span>
-                        <span className="text-xs text-gray-500 dark:text-gray-300">
-                          Pending Charges: {entry.response.headers["x-payment-session-accumulated-amount"] || "N/A"}
+                          KYA token verified & accepted
                         </span>
                         </>
                       )}

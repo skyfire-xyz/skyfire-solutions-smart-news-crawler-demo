@@ -15,9 +15,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "react-toastify/dist/ReactToastify.css"
 import { getClientConfig } from "@/lib/client-config"
 
-import NavTabs from "./components/NavTabs"
-import TopBar from "./components/TopBar"
-
 export const metadata: Metadata = {
   title: {
     default: siteConfig.name,
@@ -51,7 +48,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "min-h-screen bg-white font-sans antialiased",
+          "min-h-screen bg-gradient-to-tr from-blue-100 via-indigo-100 to-purple-50 font-sans antialiased",
           fontSans.variable
         )}
       >
@@ -64,10 +61,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             enableSystem={false}
           >
             <SkyfireProvider>
-              <div className="relative ml-5 flex min-h-screen flex-col">
-                <TopBar />
-                <NavTabs />
-
+              <div className="relative flex min-h-screen flex-col">
                 <div className="flex-1">{children}</div>
               </div>
               <TailwindIndicator />
