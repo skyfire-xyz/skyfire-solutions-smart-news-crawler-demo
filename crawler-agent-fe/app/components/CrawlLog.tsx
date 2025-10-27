@@ -11,18 +11,6 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, MessageData } from "../types"
 import ShowTextButton from "./ShowTextButton"
 
-type BadgeVariant = "default" | "success" | "destructive" | undefined
-
-const getBadgeVariant = (status: string): BadgeVariant => {
-  switch (status) {
-    case "PAID":
-      return "success"
-    case "FREE":
-      return "default"
-    case "FAILED":
-      return "destructive"
-  }
-}
 
 interface CrawlLogProps {
   log: MessageData[]
@@ -46,27 +34,6 @@ export default function CrawlLog({
       <div ref={logRef} className="flex h-full max-h-[500px] flex-col overflow-y-auto rounded-lg border border-gray-300 bg-blue-10 p-4">
         <ul className="flex-1">
           {[...log].reverse().map((entry, index) => {
-            if (!entry.request.url) {
-              return (
-                <li
-                  key={index}
-                  className="mb-1.5 flex items-start justify-between"
-                >
-                  <div className="flex-1">
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant={getBadgeVariant("FAILED")}
-                          className="px-2 py-0.5 text-xs"
-                        >
-                          FAILED
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              )
-            }
             return (
               <li
                 key={index}
@@ -77,13 +44,30 @@ export default function CrawlLog({
                     <span className="text-gray-800 dark:text-gray-400">
                       {entry.request.url}
                     </span>
-                    <div className="flex items-center gap-2">
-                      {(
+                    <div className="flex items-center gap-1">
+                      {entry.type === "error" ? (
                         <>
-                        { /* TODO remove hardcode accepted*/ } 
-                        <span className="text-xs text-gray-500 dark:text-gray-300">
-                          KYA token verified & accepted
+                        <Badge
+                          variant="destructive"
+                          className="px-2 py-0.5 text-xs"
+                        >
+                          ERROR
+                        </Badge>
+                        <span className="text-xs text-red-600 dark:text-red-400">
+                          KYA token: Missing
                         </span>
+                          </>
+                      ) : (
+                        <>
+                          <Badge
+                            variant="success"
+                            className="px-2 py-0.5 text-xs"
+                          >
+                            SUCCESS
+                          </Badge>
+                          <span className="text-xs text-gray-500 dark:text-gray-300">
+                            KYA token: {entry.response.headers["x-identity-verified"] ? "Verified & Accepted" : "Not Required"}
+                          </span>
                         </>
                       )}
                     </div>

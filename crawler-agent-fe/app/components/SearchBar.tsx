@@ -158,7 +158,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <Form {...form}>
-      <form className="flex w-full max-w-3xl flex-col space-y-4">
+      <form className="flex w-full flex-col space-y-4">
         <div className="flex items-center space-x-2">
           <div className="relative flex-1">
             <FormField
