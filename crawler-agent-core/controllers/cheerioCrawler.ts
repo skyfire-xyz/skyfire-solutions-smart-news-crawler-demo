@@ -10,8 +10,6 @@ import {
 } from "./types";
 import {
   encodeHTML,
-  fetchRobotsTxt,
-  parseRobotsTxt,
   triggerCrawlEvent,
 } from "./crawlerUtils";
 
@@ -42,21 +40,9 @@ export async function crawlWebsite({
   inputDepth = inputDepth > MAX_DEPTH ? MAX_DEPTH : inputDepth;
   const results: PageResult[] = [];
   const requestQueue = await RequestQueue.open();
-  const robotsTxt = await fetchRobotsTxt(startUrl, channelId);
-  const robotsData = parseRobotsTxt(robotsTxt);
   const startTimeOverall = Date.now();
   let totalTraversalSizeBytes = 0;
 
-  if (
-    robotsData.disallowedPaths.has("/") ||
-    robotsData.disallowedPaths.has("/*")
-  ) {
-    return {
-      results: [],
-      totalTimeSeconds: 0,
-      totalTraversalSizeBytes: 0,
-    };
-  }
   requestQueue.timeoutSecs = 5;
   console.log(`Starting crawl for ${startUrl}...`);
   await requestQueue.addRequest({ url: startUrl, userData: { depth: 0 } });
@@ -112,7 +98,6 @@ export async function crawlWebsite({
         url,
         userData: { depth },
       } = request;
-      console.log(`Processing ${url} at depth ${depth}...`);
 
       const rawHTML = body.toString();
       const rawHTMLShort = rawHTML.substring(0, 4000); // Pusher has a 10KB limit
@@ -141,26 +126,24 @@ export async function crawlWebsite({
     },
 
     failedRequestHandler({ request, response, body, error }) {
-      if (!request.url.includes("robots.txt")) {
-        const errorData = {
-          message: {
-            type: MessageType.ERROR,
-            response: {
-              text: response.body || "",
-              url: request.url,
-              headers: response.headers,
-            },
-            request: {
-              url: `Request to ${request.url} failed. Status: ${response.statusCode}`,
-              headers: request.headers,
-              method: request.method,
-            },
+      const errorData = {
+        message: {
+          type: MessageType.ERROR,
+          response: {
+            text: response.body || "",
+            url: request.url,
+            headers: response.headers,
           },
-        };
-        triggerCrawlEvent(errorData, channelId).catch((error) => {
-          console.error("Error triggering Pusher event:", error);
-        });
-      }
+          request: {
+            url: `Request to ${request.url} failed. Status: ${response.statusCode}`,
+            headers: request.headers,
+            method: request.method,
+          },
+        },
+      };
+      triggerCrawlEvent(errorData, channelId).catch((error) => {
+        console.error("Error triggering Pusher event:", error);
+      });
       console.error(error);
     },
 

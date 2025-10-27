@@ -9,17 +9,8 @@ export const CRAWLER: string = "CrawlerAI";
 
 export enum MessageType {
   PAGE = "page",
-  PAYMENT = "payment",
-  RECEIPT = "receipt",
   SUMMARY = "summary",
   ERROR = "error",
-}
-
-export interface RobotsTxtData {
-  paymentUrl: string;
-  siteUsername: string;
-  disallowedPaths: Set<string>;
-  paidContentPaths: Record<string, { claimId: string; amount: number }>;
 }
 
 export interface PageResult {
