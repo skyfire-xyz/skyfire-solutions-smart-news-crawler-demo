@@ -1,10 +1,10 @@
-import { Request, NextFunction } from "express";
+import { Request, NextFunction, Response } from "express";
 import { hasVerifiedJwt, isBotRequest } from "../type";
 import logger from "../services/logger";
 
 export default async function usageTrack(
   req: Request,
-  _res: Response,
+  res: Response,
   next: NextFunction
 ): Promise<void> {
 
@@ -22,6 +22,8 @@ export default async function usageTrack(
     userAgent: req.headers["user-agent"],
     ip: req.ip,
   });
+
+  res.setHeader("X-Identity-Verified", "true");
 
   next();
 }
