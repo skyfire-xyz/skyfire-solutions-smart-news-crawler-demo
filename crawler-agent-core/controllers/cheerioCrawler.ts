@@ -69,6 +69,10 @@ export async function crawlWebsite({
     requestHandlerTimeoutSecs: 5,
     additionalMimeTypes: ["application/json"],
     preNavigationHooks: [skyfireKyaTokenHook(skyfireKyaToken)],
+    sessionPoolOptions: {
+      blockedStatusCodes: [],
+    },
+    retryOnBlocked: false,
 
     // Function that will be called for each URL to process the HTML content
     requestHandler: async ({ request, response, body, enqueueLinks }) => {
