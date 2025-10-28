@@ -23,7 +23,8 @@ Here is a [video link](https://youtu.be/onkJ1LlS7q8) for the running crawler dem
 ### Flow
 
 Here is a diagram explaining the flow:
-![Flow Diagram](https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-demo/blob/main/static/images/crawler_flow.png?raw=true)
+![Flow Diagram](https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/blob/main/static/images/crawler_flow.png?raw=true)
+
 
 ### Pre-requisites
 
