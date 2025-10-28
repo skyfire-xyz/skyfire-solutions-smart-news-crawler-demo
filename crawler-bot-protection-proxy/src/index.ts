@@ -2,7 +2,6 @@ import express, { RequestHandler } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
-import { connectRedis, disconnectRedis } from "./lib/redis";
 import usageTrack from "./middleware/usage-track";
 import verifyHeader from "./middleware/verify-header";
 import { createProxyMiddleware } from "http-proxy-middleware";
@@ -146,8 +145,6 @@ app.use((err: Error, req: any, res: any, _next: any) => {
 
 const startServer = async (): Promise<void> => {
   try {
-    await connectRedis();
-
     app.listen(PORT, () => {
       logger.info(`Proxy server running on port ${PORT}`);
     });
@@ -159,13 +156,11 @@ const startServer = async (): Promise<void> => {
 
 process.on("SIGINT", async () => {
   logger.info("Shutting down gracefully...");
-  await disconnectRedis();
   process.exit(0);
 });
 
 process.on("SIGTERM", async () => {
   logger.info("Shutting down gracefully...");
-  await disconnectRedis();
   process.exit(0);
 });
 

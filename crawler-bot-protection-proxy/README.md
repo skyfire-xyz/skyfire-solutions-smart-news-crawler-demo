@@ -1,14 +1,13 @@
 # Skyfire Solutions Crawler Bot Protection Proxy
 
-A Node.js/Express proxy service with bot protection and Redis-based usage tracking.
+A Node.js/Express proxy service with bot protection and identification.
 
 ## Features Overview
 
 - **Bot Identification** - Identifies bot requests via `x-isbot: true` header, human requests bypass token verification
 - **Kya Token Verification** - Validates `skyfire-pay-id` JWT tokens with signature verification and seller service association
-- **Usage Tracking & Charging** - Redis-based session management with incremental charging and batch processing
 - **Request Proxying** - Forwards valid requests to target website
-- **Session Expiration** - Automatic cleanup with final charging on expiry
+- **Request Logging** - Logs all bot requests for monitoring and auditing
 
 ## Live Demo Link
 
@@ -22,7 +21,6 @@ The proxy operates in a multi-step process to protect against unauthorized bot a
 sequenceDiagram
     participant BC as Bot Client
     participant BBS as Bot Blocker Service
-    participant RQ as Redis + Queue
     participant PW as Protected Website
 
     Note over BC, PW: High-Level Bot Blocker Flow
@@ -30,34 +28,16 @@ sequenceDiagram
     BC->>BBS: Request (with/without token)
 
     alt No token
-        BBS-->>BC: 402 Payment Required
+        BBS-->>BC: 403 Forbidden
     else Token present
-        BBS->>BBS: Validate token (signature, expiry)
+        BBS->>BBS: Validate token
 
         alt Token invalid
             BBS-->>BC: 401 Invalid Token
         else Token valid
-            BBS->>BBS: Initial charge for request (e.g. $0.0001)
             BBS->>PW: Forward request
             PW-->>BBS: Website content
             BBS-->>BC: Return content
-
-            BBS->>RQ: Track request (increment count, accumulate charges, update timestamp)
-            RQ->>RQ: Check thresholds, session expiry & remaining balance
-
-            alt Remaining insufficient for request (Remaining < per use + accumulated charges)
-                RQ-->>BBS: 402 Payment Required (Low Balance)
-                BBS->>BBS: Process accumulated charges
-            else Batch threshold reached (e.g. $0.001 == accumulated charges)
-                RQ-->>BBS: Trigger batch processing
-                BBS->>BBS: Process accumulated charges
-            else Max request limit exceeded
-                RQ-->>BBS: 402 Payment Required
-            else Session expired (user inactive)
-                BBS->>BBS: Process accumulated charges & cleanup session
-            else Within limits
-                RQ-->>BBS: Continue (tracking updated)
-            end
         end
     end
 ```
@@ -75,19 +55,14 @@ sequenceDiagram
 - Ensures the token is associated with the correct seller service
 - Returns 401 Unauthorized for invalid or missing tokens
 
-### Step 2: Usage Tracking
+### Step 2: Usage Logging
 
-- **Session Management**: Creates Redis-based sessions for each token
+- Logs all authenticated bot requests for audit and monitoring purposes
+- Records request metadata including user agent, IP address, and timestamp
 
 ### Step 3: Request Proxying
 
 - Forwards valid requests to the target website (configured via `PROXY_TARGET`)
-
-### Step 4: Session Expiration
-
-- **Automatic Cleanup**: Sessions are automatically cleaned up after the configured expiry time (default: 300 seconds)
-- **Background Monitoring**: A session expiry monitor runs every 30 seconds to remove expired sessions
-- **Final Charging**: Any accumulated charges are automatically charged when sessions expire
 
 ## 📋 Prerequisites
 
@@ -112,8 +87,6 @@ Copy .env.example to .env
 ```
 # Configs
 PORT=4000
-REDIS_HOST=localhost
-REDIS_PORT=6379
 
 # Proxy URL
 PROXY_TARGET=<your_website> or use our mock news demo website https://demo-mock-news.onrender.com/
@@ -133,7 +106,7 @@ SELLER_SERVICE_ID=<your_seller_service_id>
 docker-compose up
 ```
 
-This starts both Redis and the application with hot reloading enabled.
+This starts the application with hot reloading enabled.
 
 ## 🧪 How to test request
 
