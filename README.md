@@ -1,6 +1,6 @@
 # Smart Web Crawler Demo
 
-In this demo, we’ll explore how Skyfire enables seamless, token-based identification for crawling protected websites, and how its batch-based charging model benefits both data providers and consumers.
+In this demo, we’ll explore how Skyfire enables seamless, token-based identification for crawling protected websites, and how its identification-based access model benefits both data providers and consumers.
 
 ### The Problem: Crawling Protected Content
 
@@ -16,7 +16,7 @@ Skyfire introduces a **token-based identification system** that allows crawlers 
 
 ### Live Demo Link
 
-You can play with the live demo [here](https://crawler-demo.skyfire.xyz/).
+You can play with the live demo [here](https://crawler-news-demo.onrender.com/).
 
 Here is a [video link](https://youtu.be/onkJ1LlS7q8) for the running crawler demo
 
@@ -33,7 +33,7 @@ To run this demo,
 
 ### Contents:
 
-The demo consists of four integrated projects that work together to demonstrate how content owners can monetize their valuable data while providing legitimate crawlers with authorized access.
+The demo consists of four integrated projects that work together to demonstrate how content owners can control access to their valuable data while providing legitimate crawlers with authorized access.
 
 1. Crawler Agent FE:
 
@@ -62,15 +62,14 @@ The demo consists of four integrated projects that work together to demonstrate 
 - Purpose: Acts as the protective barrier and identification processor
 - Features:
   - Kya Token Verification - Validates `skyfire-pay-id` KYA tokens from Skyfire
-  - Usage Tracking & Charging - Redis-based session management with incremental charging and batch processing
+  - Access Logging - Logs all authenticated bot requests for audit and monitoring
   - Request Proxying - Forwards valid requests to target website
-  - Session Expiration - Automatic cleanup with final charging on expiry
-- Technology: Node.js/Express (docker) with Redis for session management
+- Technology: Node.js/Express (docker)
 
 4. Protected Website:
 
 - Available at: [https://demo-mock-news.onrender.com/](https://demo-mock-news.onrender.com/)
-- Purpose: Simulates valuable content that requires paid access from crawler bots.
+- Purpose: Simulates valuable content that requires identification from crawler bots.
 
 ### Installation Steps
 
@@ -82,4 +81,4 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 ### Note:
 
-Take a look at the live demo [here](https://crawler-demo.skyfire.xyz/).
+Take a look at the live demo [here](https://crawler-news-demo.onrender.com/).
