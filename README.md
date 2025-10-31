@@ -23,7 +23,7 @@ Here is a [video link](https://youtu.be/onkJ1LlS7q8) for the running crawler dem
 ### Flow
 
 Here is a diagram explaining the flow:
-![Flow Diagram](https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/blob/main/static/images/crawler_flow.png?raw=true)
+![Flow Diagram](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/blob/main/static/images/crawler_flow.png?raw=true)
 
 
 ### Pre-requisites
@@ -38,7 +38,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 1. Crawler Agent FE:
 
-- Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/crawler-agent-fe](https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/tree/main/crawler-agent-fe)
+- Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-agent-fe](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-agent-fe)
 - Purpose: Interactive frontend that demonstrates the difference between authorized and unauthorized crawling
 - Features:
   - Skyfire token management interface
@@ -47,7 +47,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 2. Crawler Agent Core:
 
-- Available at: [https://github.com/skyfire-xyz/skyfire-solutions-crawler-service-news-demo/crawler-agent-core](https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/tree/main/crawler-agent-core)
+- Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-agent-core](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-agent-core)
 - Purpose: Backend service that performs the actual crawling operations
 - Features:
   - Executes crawl requests with and without identification tokens
@@ -59,7 +59,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 3. Bot Protection Proxy:
 
-- Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/crawler-bot-protection-proxy](https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo/tree/main/crawler-bot-protection-proxy)
+- Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-bot-protection-proxy](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-bot-protection-proxy)
 - Purpose: Acts as the protective barrier and identification processor
 - Features:
   - Kya Token Verification - Validates `skyfire-pay-id` KYA tokens from Skyfire
@@ -76,7 +76,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 1.  Clone the repository:
     ```bash
-    git clone https://github.com/skyfire-xyz/skyfire-solutions-smart-web-crawler-news-demo.git
+    git clone https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo.git
     ```
 2.  Follow installation instructions in each sub-directory
 
