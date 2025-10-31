@@ -16,7 +16,7 @@ Skyfire introduces a **token-based identification system** that allows crawlers 
 
 ### Live Demo Link
 
-You can play with the live demo [here](https://crawler-news-demo.onrender.com/).
+You can play with the live demo [here](https://news-crawler-demo.skyfire.xyz/).
 
 Here is a [video link](https://youtu.be/onkJ1LlS7q8) for the running crawler demo
 
@@ -69,7 +69,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 4. Protected Website:
 
-- Available at: [https://demo-mock-news.onrender.com/](https://demo-mock-news.onrender.com/)
+- Available at: [https://mock-news-site.skyfire.xyz/](https://mock-news-site.skyfire.xyz/)
 - Purpose: Simulates valuable content that requires identification from crawler bots.
 
 ### Installation Steps
@@ -82,4 +82,4 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 ### Note:
 
-Take a look at the live demo [here](https://crawler-news-demo.onrender.com/).
+Take a look at the live demo [here](https://news-crawler-demo.skyfire.xyz/).
