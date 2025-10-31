@@ -1,4 +1,4 @@
-# Smart Web Crawler Demo
+# Smart News Crawler Demo - News and Content in Exchange for Identity
 
 In this demo, we’ll explore how Skyfire enables seamless, token-based identification for crawling protected websites, and how its identification-based access model benefits both data providers and consumers.
 

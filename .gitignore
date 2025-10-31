@@ -1,0 +1,9 @@
+*/node_modules/
+*/.env
+*/dist/
+*/storage/
+*/.DS_Store
+
+crawler-agent-fe/.next/
+crawler-agent-fe/out/
+crawler-agent-fe/build
