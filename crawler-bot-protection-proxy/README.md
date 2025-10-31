@@ -11,7 +11,7 @@ A Node.js/Express proxy service with bot protection and identification.
 
 ## Live Demo Link
 
-You can play with the live demo [here](https://demo-mock-news.onrender.com/).
+You can play with the live demo [here](https://news-crawler-demo.skyfire.xyz/).
 
 ## 💳 How Proxy Charges Token
 
@@ -89,7 +89,7 @@ Copy .env.example to .env
 PORT=4000
 
 # Proxy URL
-PROXY_TARGET=<your_website> or use our mock news demo website https://demo-mock-news.onrender.com/
+PROXY_TARGET=<your_website> or use our mock news demo website https://mock-news-site.skyfire.xyz/
 
 # API
 SKYFIRE_API_URL="https://api.skyfire.xyz"

@@ -4,7 +4,7 @@ This is a Next.js application for a web crawler trying to scrape content from we
 
 ### Live Demo Link
 
-You can play with the live demo [here](https://crawler-news-demo.onrender.com/).
+You can play with the live demo [here](https://news-crawler-demo.skyfire.xyz/).
 
 Here is a video for the running crawler demo:
 ![Running Crawler Demo Video](https://youtu.be/onkJ1LlS7q8)
