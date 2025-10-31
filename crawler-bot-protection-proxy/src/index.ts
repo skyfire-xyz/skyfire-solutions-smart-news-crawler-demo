@@ -64,7 +64,7 @@ app.use(usageTrack as unknown as RequestHandler);
 
 // Step 3: Proxy the request if the token is valid.
 const envProxyTarget = process.env.PROXY_TARGET;
-const defaultTarget = "https://mock-news-site.skyfire.xyz/";
+const defaultTarget = "https://mock-news.onrender.com/";
 
 // Handle empty, null, or undefined PROXY_TARGET
 let proxyTarget: string;
