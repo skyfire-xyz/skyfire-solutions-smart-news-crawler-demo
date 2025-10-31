@@ -69,7 +69,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 4. Protected Website:
 
-- Available at: [https://mock-news-site.skyfire.xyz/](https://mock-news-site.skyfire.xyz/)
+- Available at: [https://demo-mock-news.onrender.com](https://demo-mock-news.onrender.com)
 - Purpose: Simulates valuable content that requires identification from crawler bots.
 
 ### Installation Steps
