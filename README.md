@@ -1,19 +1,19 @@
 # Smart News Crawler Demo - News and Content given End-User Identity
 
-In this reference implementation, we’ll demonstrate how you can use `kya` tokens to gate agentic and bot access to your websites and APIs. Content publishers can require agentic platforms and bots to submit verified `kya` tokens that deliver the identity of the human end-user. Content publishers no longer need to be disintermediated from their human end-users.
+In this reference implementation, we’ll demonstrate how you can use `kya` tokens to gate agent and bot access to your websites and APIs. Content publishers can require agents and bots to submit verified `kya` tokens that deliver the identity of their human principal / end-user. Content publishers need not be disintermediated from their human end-users.
 
 ### The Problem: Crawling Protected Content
 
-Publishers typically want their content to be accessed by human end-users because they aim to either generate ad impressions and/or sell the human end-users on paid subscriptions. They therefore set their bot managers to block web crawlers, bots and agents from accessing their websites unless these bots and agents deliver the identity of their human end-user.
+Publishers typically want their content to be accessed by human end-users because they aim to either generate ad impressions and/or sell the human end-users on paid subscriptions. They therefore set their bot managers to block web crawlers, bots and agents, from accessing their websites unless these bots and agents deliver the identity of their human end-users.
 
 ### The Solution: Skyfire’s KYA Token
 
-Skyfire enables agents and bots to deliver an **identity token**, also known as a `kya` token, to websites and APIs. This token contains the identity of the human principal or business entity on whose behalf the agent is acting. It enables crawlers, bots and agents access protected content in a secure, auditable, and automated way. Here’s how it works:
+Skyfire enables agents and bots to deliver an **identity token**, also known as a **`kya`** token, to websites and APIs. This token contains the identity of the human principal, or business entity, on whose behalf the agent is acting. It enables crawlers, bots and agents, to access protected content in a secure, auditable, and automated way. Here’s how it works:
 
-- **Identity Verification:** The human principal or business entity behind the crawler, agent or bot verifies their identity with a trusted Identity Token Issuer like Skyfire
-- **Token Generation:** The crawler, agent or bot, requests a KYA token using Skyfire’s API
-- **Token Submission:** The crawler includes the token in the HTTP headers of its requests to the protected website.
-- **Verification and Enforcement:** The protected website verifies the token and tracks usage, ensuring that only authorized crawlers can access the data.
+- **Identity Verification:** The human principal, or business entity, behind the crawler, agent or bot, verifies their identity with a trusted Identity Token Issuer like Skyfire
+- **Token Generation:** At runtime, the crawler, agent or bot, requests a KYA token using Skyfire’s API
+- **Token Submission:** The crawler, agent or bot, includes the token in the HTTP headers of its requests to the protected website or API
+- **Verification and Enforcement:** The protected website, or its bot manager, verifies the token and tracks usage, ensuring that only authorized crawlers, agents and bots, can access the content.
 
 ### Live Demo Link
 
