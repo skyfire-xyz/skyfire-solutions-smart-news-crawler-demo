@@ -1,6 +1,6 @@
-# Smart News Crawler Demo - News and Content in Exchange for Identity
+# Smart News Crawler Demo - News and Content given End-User Identity
 
-In this demo, we’ll explore how Skyfire enables seamless, token-based identification for crawling protected websites, and how its identification-based access model benefits both data providers and consumers.
+In this demo, we’ll demonstrate how you can use `kya` tokens to gate agentic and bot access to your websites and APIs. Content publishers can enforce not being disintermediated from their human users by requiring agentic platforms and bots to submit verified `kya` tokens that 
 
 ### The Problem: Crawling Protected Content
 
