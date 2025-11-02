@@ -8,9 +8,10 @@ Publishers typically want their content to be accessed by human end-users becaus
 
 ### The Solution: Skyfire’s KYA Token
 
-Skyfire introduces an **identity token**, also known as a `kya` token. This token enables crawlers, bots and agents to  to access protected content in a secure, auditable, and automated way. Here’s how it works:
+Skyfire enables agents and bots to deliver an **identity token**, also known as a `kya` token, to websites and APIs. This token contains the identity of the human principal or business entity on whose behalf the agent is acting. It enables crawlers, bots and agents access protected content in a secure, auditable, and automated way. Here’s how it works:
 
-- **Token Generation:** The crawler agent requests a KYA token from Skyfire’s API, specifying the amount of access or data required.
+- **Identity Verification:** The human principal or business entity behind the crawler, agent or bot verifies their identity with a trusted Identity Token Issuer like Skyfire
+- **Token Generation:** The crawler, agent or bot, requests a KYA token using Skyfire’s API
 - **Token Submission:** The crawler includes the token in the HTTP headers of its requests to the protected website.
 - **Verification and Enforcement:** The protected website verifies the token and tracks usage, ensuring that only authorized crawlers can access the data.
 
