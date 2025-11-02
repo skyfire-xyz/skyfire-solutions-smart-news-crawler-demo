@@ -31,13 +31,13 @@ Here is a diagram explaining the flow:
 
 To run this demo,
 
-- Follow the [Skyfire Platform Setup Guide](https://docs.skyfire.xyz/docs/introduction) to create Skyfire API key, complete Buyer and Seller Onboarding.
+- Follow the [Skyfire Platform Setup Guide](https://docs.skyfire.xyz/docs/introduction) to create your Skyfire API key and onboard your Buyer and Seller.
 
 ### Contents:
 
-The demo consists of four integrated projects that work together to demonstrate how content owners can control access to their valuable data while providing legitimate crawlers with authorized access.
+The demo consists of four integrated projects that work together to demonstrate how content owners can control access to their valuable content while providing legitimate crawlers, agents and bots, with automated access.
 
-1. Crawler Agent FE:
+1. Crawler Agent Frontend:
 
 - Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-agent-fe](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-agent-fe)
 - Purpose: Interactive frontend that demonstrates the difference between authorized and unauthorized crawling
@@ -51,7 +51,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 - Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-agent-core](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-agent-core)
 - Purpose: Backend service that performs the actual crawling operations
 - Features:
-  - Executes crawl requests with and without identification tokens
+  - Executes crawl requests with and without `kya` tokens
   - Integrates with Bot Protect Proxy for access control
   - Handles token validation and request processing
   - Provides API endpoints for the frontend
@@ -61,17 +61,17 @@ The demo consists of four integrated projects that work together to demonstrate 
 3. Bot Protection Proxy:
 
 - Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-bot-protection-proxy](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-bot-protection-proxy)
-- Purpose: Acts as the protective barrier and identification processor
+- Purpose: Acts as the bot manager and `kya` token processor
 - Features:
-  - Kya Token Verification - Validates `skyfire-pay-id` KYA tokens from Skyfire
+  - `kya` Token Verification - Validates the tokens in the `skyfire-pay-id` header of the requests
   - Access Logging - Logs all authenticated bot requests for audit and monitoring
-  - Request Proxying - Forwards valid requests to target website
+  - Request Proxying - Forwards valid requests to the target website
 - Technology: Node.js/Express (docker)
 
 4. Protected Website:
 
 - Available at: [https://demo-mock-news.onrender.com](https://demo-mock-news.onrender.com)
-- Purpose: Simulates valuable content that requires identification from crawler bots.
+- Purpose: Simulates valuable content that requires end-user identification from crawler, agents and bots
 
 ### Installation Steps
 
