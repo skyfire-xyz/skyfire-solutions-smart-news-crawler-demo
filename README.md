@@ -1,18 +1,19 @@
-# Smart News Crawler Demo - News and Content in Exchange for Identity
+# Smart News Crawler Demo - News and Content given End-User Identity
 
-In this demo, we’ll explore how Skyfire enables seamless, token-based identification for crawling protected websites, and how its identification-based access model benefits both data providers and consumers.
+In this reference implementation, we’ll demonstrate how you can use `kya` tokens to gate agent and bot access to your websites and APIs. Content publishers can require agents and bots to submit verified `kya` tokens that deliver the identity of their human principal / end-user. Content publishers need not be disintermediated from their human end-users.
 
 ### The Problem: Crawling Protected Content
 
-Traditional web crawlers often hit a wall when they encounter protected content. Website owners want to monetize their data, while authorized crawlers need a way to gain access.
+Publishers typically want their content to be accessed by human end-users because they aim to either generate ad impressions and/or sell the human end-users on paid subscriptions. They therefore set their bot managers to block web crawlers, bots and agents, from accessing their websites unless these bots and agents deliver the identity of their human end-users.
 
 ### The Solution: Skyfire’s KYA Token
 
-Skyfire introduces a **token-based identification system** that allows crawlers to access protected content in a secure, auditable, and automated way. Here’s how it works:
+Skyfire enables agents and bots to deliver an **identity token**, also known as a **`kya`** token, to websites and APIs. This token contains the identity of the human principal, or business entity, on whose behalf the agent is acting. It enables crawlers, bots and agents, to access protected content in a secure, auditable, and automated way. Here’s how it works:
 
-- **Token Generation:** The crawler agent requests a KYA token from Skyfire’s API, specifying the amount of access or data required.
-- **Token Submission:** The crawler includes the token in the HTTP headers of its requests to the protected website.
-- **Verification and Enforcement:** The protected website verifies the token and tracks usage, ensuring that only authorized crawlers can access the data.
+- **Identity Verification:** The human principal, or business entity, behind the crawler, agent or bot, verifies their identity with a trusted Identity Token Issuer like Skyfire
+- **Token Generation:** At runtime, the crawler, agent or bot, requests a KYA token using Skyfire’s API
+- **Token Submission:** The crawler, agent or bot, includes the token in the HTTP headers of its requests to the protected website or API
+- **Verification and Enforcement:** The protected website, or its bot manager, verifies the token and tracks usage, ensuring that only authorized crawlers, agents and bots, can access the content.
 
 ### Live Demo Link
 
@@ -30,13 +31,13 @@ Here is a diagram explaining the flow:
 
 To run this demo,
 
-- Follow the [Skyfire Platform Setup Guide](https://docs.skyfire.xyz/docs/introduction) to create Skyfire API key, complete Buyer and Seller Onboarding.
+- Follow the [Skyfire Platform Setup Guide](https://docs.skyfire.xyz/docs/introduction) to create your Skyfire API key and onboard your Buyer and Seller.
 
 ### Contents:
 
-The demo consists of four integrated projects that work together to demonstrate how content owners can control access to their valuable data while providing legitimate crawlers with authorized access.
+The demo consists of four integrated projects that work together to demonstrate how content owners can control access to their valuable content while providing legitimate crawlers, agents and bots, with automated access.
 
-1. Crawler Agent FE:
+1. Crawler Agent Frontend:
 
 - Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-agent-fe](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-agent-fe)
 - Purpose: Interactive frontend that demonstrates the difference between authorized and unauthorized crawling
@@ -50,7 +51,7 @@ The demo consists of four integrated projects that work together to demonstrate 
 - Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-agent-core](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-agent-core)
 - Purpose: Backend service that performs the actual crawling operations
 - Features:
-  - Executes crawl requests with and without identification tokens
+  - Executes crawl requests with and without `kya` tokens
   - Integrates with Bot Protect Proxy for access control
   - Handles token validation and request processing
   - Provides API endpoints for the frontend
@@ -60,17 +61,17 @@ The demo consists of four integrated projects that work together to demonstrate 
 3. Bot Protection Proxy:
 
 - Available at: [https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/crawler-bot-protection-proxy](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/main/crawler-bot-protection-proxy)
-- Purpose: Acts as the protective barrier and identification processor
+- Purpose: Acts as the bot manager and `kya` token processor
 - Features:
-  - Kya Token Verification - Validates `skyfire-pay-id` KYA tokens from Skyfire
+  - `kya` Token Verification - Validates the tokens in the `skyfire-pay-id` header of the requests
   - Access Logging - Logs all authenticated bot requests for audit and monitoring
-  - Request Proxying - Forwards valid requests to target website
+  - Request Proxying - Forwards valid requests to the target website
 - Technology: Node.js/Express (docker)
 
 4. Protected Website:
 
 - Available at: [https://demo-mock-news.onrender.com](https://demo-mock-news.onrender.com)
-- Purpose: Simulates valuable content that requires identification from crawler bots.
+- Purpose: Simulates valuable content that requires end-user identification from crawler, agents and bots
 
 ### Installation Steps
 
@@ -82,4 +83,4 @@ The demo consists of four integrated projects that work together to demonstrate 
 
 ### Note:
 
-Take a look at the live demo [here](https://news-crawler-demo.skyfire.xyz/).
+Take a look at the live demo [https://news-crawler-demo.skyfire.xyz/](https://news-crawler-demo.skyfire.xyz/).
