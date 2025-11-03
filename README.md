@@ -15,6 +15,26 @@ Skyfire enables agents and bots to deliver an **identity token**, also known as 
 - **Token Submission:** The crawler, agent or bot, includes the token in the HTTP headers of its requests to the protected website or API
 - **Verification and Enforcement:** The protected website, or its bot manager, verifies the token and tracks usage, ensuring that only authorized crawlers, agents and bots, can access the content.
 
+### Enterprise Use Case
+In addition to individual users, Skyfire supports Enterprises and Enterprise Users — enabling organizations to extend Skyfire’s secure identity and access capabilities to their own user base.
+
+When a user interacts with a merchant or content publisher that’s registered with Skyfire as an Enterprise, Skyfire automatically provisions an Enterprise User Account for that user. This means the user inherits access to Skyfire’s capabilities through their enterprise association — no separate signup is required.
+
+For example, in this demo:
+- The default user is `chloe+1@skyfire.xyz`.
+- She has registered under the DEF News Agent organization.
+- Since DEF News Agent is a registered enterprise with Skyfire, Chloe automatically has a Skyfire enterprise user account associated with her email and that enterprise.
+
+You can verify this by walking through the [live demo](https://news-crawler-demo.skyfire.xyz/) and decoding her `kya` token. In the decoded payload, you'll find the following field:
+
+```bash
+"apd": {
+  "id": "af0d5463-63ca-473e-b28e-8404248b7a8d",
+  "name": "DEF News Agent"
+}
+```
+This field indicates that the user (`chloe+1@skyfire.xyz`) belongs to the DEF News Agent organization -- her Skyfire identity and permissions are derived from that enterprise.
+
 ### Live Demo Link
 
 You can play with the live demo [here](https://news-crawler-demo.skyfire.xyz/).
