@@ -126,25 +126,30 @@ export async function crawlWebsite({
     },
 
     failedRequestHandler({ request, response, body, error }) {
+      // Handle cases where response is undefined (timeouts, connection errors, etc.)
+      const responseText = body?.toString() || response?.body || "";
+      const responseHeaders = response?.headers || {};
+      const statusCode = response?.statusCode || "N/A";
+      
       const errorData = {
         message: {
           type: MessageType.ERROR,
           response: {
-            text: response.body || "",
+            text: responseText,
             url: request.url,
-            headers: response.headers,
+            headers: responseHeaders,
           },
           request: {
-            url: `Request to ${request.url} failed. Status: ${response.statusCode}`,
-            headers: request.headers,
-            method: request.method,
+            url: `Request to ${request.url} failed. Status: ${statusCode}`,
+            headers: request.headers || {},
+            method: request.method || "GET",
           },
         },
       };
       triggerCrawlEvent(errorData, channelId).catch((error) => {
         console.error("Error triggering Pusher event:", error);
       });
-      console.error(error);
+      console.error("Failed request error:", error);
     },
 
     // Limit the concurrency to avoid overwhelming the server
