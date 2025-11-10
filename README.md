@@ -39,7 +39,7 @@ This field indicates that the user (`bobby@skyfire.xyz`) belongs to the DEF News
 
 You can play with the live demo [here](https://news-crawler-demo.skyfire.xyz/).
 
-Here is a [video link](https://www.loom.com/share/99f53d371e9b4fb0aea812d658f40591) for the running crawler demo
+Here is a [video link](https://youtu.be/zAlU-0Af1tw?si=IlxaRk892FQ7DU5l) for the running crawler demo
 
 ### Flow
 
