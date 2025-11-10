@@ -13,6 +13,14 @@ export enum MessageType {
   ERROR = "error",
 }
 
+export interface RobotsTxtData {
+  paymentUrl: string
+  siteUsername: string
+  disallowedPaths: Set<string>
+  paidContentPaths: Record<string, { claimId: string; amount: number }>
+}
+
+
 export interface PageResult {
   type: MessageType;
   request: { url: string; headers: Record<string, string>; method: string };
