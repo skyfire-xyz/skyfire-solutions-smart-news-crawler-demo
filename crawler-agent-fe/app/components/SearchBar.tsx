@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -43,9 +44,38 @@ interface Suggestion {
   type: string
 }
 
+interface BotTypes {
+  type: string
+  description: string
+}
+
 const suggestions: Suggestion[] = [
   { url: "https://skyfire.xyz", name: "Skyfire", type: "Unprotected" },
-  { url: "https://mock-news-site.skyfire.xyz/", name: "MockNews", type: "Protected"}
+  {
+    url: "https://mock-news-site.skyfire.xyz/",
+    name: "MockNews",
+    type: "Protected",
+  },
+  {
+    url: "https://g41sg3b8o8.execute-api.us-east-1.amazonaws.com/dev/users",
+    name: "MockNews (API Gateway + WAF)",
+    type: "Protected",
+  },
+  {
+    url: "https://dex4cbi52l5ce.cloudfront.net/",
+    name: "MockNews (CloudFront + WAF)",
+    type: "Protected",
+  },
+  // { url: "https://mock-news-site.skyfire.xyz/", name: "MockNews", type: "Protected" },
+  // { url: "https://mock-news-site.skyfire.xyz/", name: "MockNews", type: "Protected" },
+]
+
+const botTypes: BotTypes[] = [
+  {
+    type: "Good bot", description: "Open access to protected content for Search Engine Bot (google/bing etc)",
+  },
+  { type: "AI bot", description: "Requires Skyfire KYA Token to access protected content" },
+  { type: "Bad bot", description: "Access not authorized at all" }
 ]
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -104,7 +134,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
       setIsLoading(true)
       setAlerts([])
 
-      const crawlerEndpoint = `${process.env.NEXT_PUBLIC_SERVICE_BASE_URL}/crawl` 
+      const crawlerEndpoint = `${process.env.NEXT_PUBLIC_SERVICE_BASE_URL}/crawl`
       const requestBody = {
         startUrl: data.url,
         channelId: channelId,
@@ -119,11 +149,10 @@ const SearchBar: React.FC<SearchBarProps> = ({
         "content-type": "application/json",
       }
 
-     
-        await axios.post(crawlerEndpoint, requestBody, { headers })
+      await axios.post(crawlerEndpoint, requestBody, { headers })
     } catch (err) {
       if (axios.isAxiosError(err)) {
-       if (err.message === "Network Error") {
+        if (err.message === "Network Error") {
           setAlerts([
             {
               type: AlertType.NETWORK,
@@ -147,14 +176,17 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
   const onStop = async () => {
     try {
-      setIsLoading(false); 
-      await axios.post(`${process.env.NEXT_PUBLIC_SERVICE_BASE_URL}/crawl/stop`, {channelId: channelId});
+      setIsLoading(false)
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVICE_BASE_URL}/crawl/stop`,
+        { channelId: channelId }
+      )
       // setAlerts([{ type: AlertType.INFO, message: "Crawling stopped." }]);
     } catch (err) {
       // setAlerts([{ type: AlertType.INVALID, message: "Failed to stop crawling." }]);
-      console.error("Stop error:", err);
+      console.error("Stop error:", err)
     }
-  };
+  }
 
   return (
     <Form {...form}>
@@ -198,8 +230,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                                 <div className="flex min-w-0 flex-1 items-center gap-3">
                                   <span
                                     className={`rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-800 ${
-                                      suggestion.type === "Protected" 
-                                        ? "mr-4" 
+                                      suggestion.type === "Protected"
+                                        ? "mr-4"
                                         : ""
                                     }`}
                                   >
@@ -211,6 +243,48 @@ const SearchBar: React.FC<SearchBarProps> = ({
                                     </div>
                                     <div className="mt-1 truncate text-xs text-gray-500">
                                       {suggestion.url}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <Input
+                        {...field}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() =>
+                          setTimeout(() => setIsFocused(false), 200)
+                        }
+                        onKeyDown={handleKeyDown}
+                        placeholder="Select bot category"
+                        autoComplete="off"
+                      />
+                      {isFocused && (
+                        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
+                          {botTypes.map((bot, index) => (
+                            <div
+                              key={bot.type}
+                              className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
+                                index === selectedIndex
+                                  ? "border-blue-200 bg-gray-50"
+                                  : "hover:bg-gray-50"
+                              }`}
+                              onClick={() => {
+                                field.onChange(bot.type)
+                                setIsFocused(false)
+                                setSelectedIndex(-1)
+                              }}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className="flex min-w-0 flex-1 items-center gap-3">
+                                    <div className="min-w-0 flex-1">
+                                    <div className="truncate text-sm font-medium text-gray-900">
+                                      {bot.type}
+                                    </div>
+                                    <div className="mt-1 truncate text-xs text-gray-500">
+                                      {bot.description}
                                     </div>
                                   </div>
                                 </div>
@@ -237,17 +311,18 @@ const SearchBar: React.FC<SearchBarProps> = ({
           >
             {isLoading ? "Crawling..." : "Crawl"}
           </Button>
-          {isLoading ? 
-          <Button
-            type="button"
-            onClick={() => form.handleSubmit(onStop)()}
-            disabled={!isLoading}
-            variant="secondary"
-          >
-            Stop Crawling
-          </Button>
-          : <></>
-          }
+          {isLoading ? (
+            <Button
+              type="button"
+              onClick={() => form.handleSubmit(onStop)()}
+              disabled={!isLoading}
+              variant="secondary"
+            >
+              Stop Crawling
+            </Button>
+          ) : (
+            <></>
+          )}
         </div>
       </form>
     </Form>
