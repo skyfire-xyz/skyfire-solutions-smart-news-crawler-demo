@@ -34,6 +34,7 @@ const searchFormSchema = z.object({
     .min(1, "URL is required")
     .url("Invalid URL format")
     .regex(/^https?:\/\//, "URL must start with http:// or https://"),
+  botType: z.string().optional(),
 })
 
 type SearchFormValues = z.infer<typeof searchFormSchema>
@@ -88,47 +89,82 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   const [kyaToken, setKyaToken] = useState<string>(skyfireKyaToken || "")
   const [isLoading, setIsLoading] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(-1)
+  
+  const [isUrlFocused, setIsUrlFocused] = useState(false)
+  const [selectedUrlIndex, setSelectedUrlIndex] = useState(-1)
+
+  const [isBotFocused, setIsBotFocused] = useState(false)
+  const [selectedBotIndex, setSelectedBotIndex] = useState(-1)
 
   const form = useForm<SearchFormValues>({
     resolver: zodResolver(searchFormSchema),
     defaultValues: {
       url: "",
+      botType: ""
     },
   })
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isFocused || suggestions.length === 0) return
+  const handleUrlKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isUrlFocused || suggestions.length === 0) return
 
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault()
-        setSelectedIndex((prev) =>
+        setSelectedUrlIndex((prev) =>
           prev < suggestions.length - 1 ? prev + 1 : prev
         )
         break
       case "ArrowUp":
         e.preventDefault()
-        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : -1))
+        setSelectedUrlIndex((prev) => (prev > 0 ? prev - 1 : -1))
         break
       case "Enter":
         e.preventDefault()
-        if (selectedIndex >= 0) {
-          form.setValue("url", suggestions[selectedIndex].url)
-          setIsFocused(false)
-          setSelectedIndex(-1)
+        if (selectedUrlIndex >= 0) {
+          form.setValue("url", suggestions[selectedUrlIndex].url)
+          setIsUrlFocused(false)
+          setSelectedUrlIndex(-1)
         }
         break
       case "Escape":
-        setIsFocused(false)
-        setSelectedIndex(-1)
+        setIsUrlFocused(false)
+        setSelectedUrlIndex(-1)
+        break
+    }
+  }
+
+    const handleBotKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isUrlFocused || botTypes.length === 0) return
+
+    switch (e.key) {
+      case "ArrowDown":
+        e.preventDefault()
+        setSelectedBotIndex((prev) =>
+          prev < botTypes.length - 1 ? prev + 1 : prev
+        )
+        break
+      case "ArrowUp":
+        e.preventDefault()
+        setSelectedBotIndex((prev) => (prev > 0 ? prev - 1 : -1))
+        break
+      case "Enter":
+        e.preventDefault()
+        if (selectedBotIndex >= 0) {
+          form.setValue("botType", botTypes[selectedBotIndex].type)
+          setIsBotFocused(false)
+          setSelectedBotIndex(-1)
+        }
+        break
+      case "Escape":
+        setIsBotFocused(false)
+        setSelectedBotIndex(-1)
         break
     }
   }
 
   const onSubmit = async (data: SearchFormValues) => {
-    setIsFocused(false)
+    setIsUrlFocused(false)
+    setIsBotFocused(false)
     await onSearch()
     try {
       setIsLoading(true)
@@ -202,28 +238,28 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     <div className="relative">
                       <Input
                         {...field}
-                        onFocus={() => setIsFocused(true)}
+                        onFocus={() => setIsUrlFocused(true)}
                         onBlur={() =>
-                          setTimeout(() => setIsFocused(false), 200)
+                          setTimeout(() => setIsUrlFocused(false), 200)
                         }
-                        onKeyDown={handleKeyDown}
+                        onKeyDown={handleUrlKeyDown}
                         placeholder="Select or Enter website URL"
                         autoComplete="off"
                       />
-                      {isFocused && (
+                      {isUrlFocused && (
                         <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
                           {suggestions.map((suggestion, index) => (
                             <div
                               key={suggestion.url}
                               className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
-                                index === selectedIndex
+                                index === selectedUrlIndex
                                   ? "border-blue-200 bg-gray-50"
                                   : "hover:bg-gray-50"
                               }`}
                               onClick={() => {
                                 field.onChange(suggestion.url)
-                                setIsFocused(false)
-                                setSelectedIndex(-1)
+                                setIsUrlFocused(false)
+                                setSelectedUrlIndex(-1)
                               }}
                             >
                               <div className="flex items-center justify-between">
@@ -253,28 +289,28 @@ const SearchBar: React.FC<SearchBarProps> = ({
                       )}
                       <Input
                         {...field}
-                        onFocus={() => setIsFocused(true)}
+                        onFocus={() => setIsBotFocused(true)}
                         onBlur={() =>
-                          setTimeout(() => setIsFocused(false), 200)
+                          setTimeout(() => setIsBotFocused(false), 200)
                         }
-                        onKeyDown={handleKeyDown}
+                        onKeyDown={handleBotKeyDown}
                         placeholder="Select bot category"
                         autoComplete="off"
                       />
-                      {isFocused && (
+                      {isBotFocused && (
                         <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
                           {botTypes.map((bot, index) => (
                             <div
                               key={bot.type}
                               className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
-                                index === selectedIndex
+                                index === selectedBotIndex
                                   ? "border-blue-200 bg-gray-50"
                                   : "hover:bg-gray-50"
                               }`}
                               onClick={() => {
                                 field.onChange(bot.type)
-                                setIsFocused(false)
-                                setSelectedIndex(-1)
+                                setIsBotFocused(false)
+                                setSelectedBotIndex(-1)
                               }}
                             >
                               <div className="flex items-center justify-between">
