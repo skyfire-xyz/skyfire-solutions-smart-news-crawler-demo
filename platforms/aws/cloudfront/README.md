@@ -1,4 +1,10 @@
-# CloudFront with Lambda@edge
+# CloudFront + Lambda@Edge
+
+## CloudFront Overview
+Amazon CloudFront is AWS’s global content delivery network (CDN). It accelerates delivery of web assets (static and dynamic content, APIs, media) by caching content at globally distributed edge locations. Requests are served from the nearest edge location, reducing latency and improving performance.
+CloudFront integrates seamlessly with multiple AWS services and can be extended using edge compute (Lambda@Edge).
+
+## CloudFront + Lambda@Edge
 
 You can attach Lambda@Edge functions to CloudFront to run custom logic at the edge before requests reach your origin. Lambda@Edge enables token validation, request transformation, bot checks, security filtering, and more - all close to your users.
 CloudFront Events Supported by Lambda@Edge
@@ -10,6 +16,8 @@ Lambda@Edge functions can be invoked during four event phases:
 
 A CloudFront distribution can attach one Lambda function per event type.
 
+If your environment requires advanced security (bot mitigation, IP filtering, rate limiting, geo-restrictions), you can layer AWS WAF on top of your CloudFront + Lambda@Edge architecture - refer [here](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/tree/SKYK-930-aws-integration/platforms/aws/cloudfront-waf).
+
 #### Deployment Steps
 1. Create a CloudFront Distribution
 Configure your origin, cache policy, and any required behaviors based on your application architecture.
@@ -18,38 +26,9 @@ Configure your origin, cache policy, and any required behaviors based on your ap
 Lambda@Edge functions must be created in the us-east-1 region. 
 CloudFront's control plane is hosted exclusively in this region, and all edge function replication begins from here. More details here.
 
-3. Example Lambda@Edge Function: Skyfire Token Verification
+3. [Sample Lambda@Edge Function](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/blob/SKYK-930-aws-integration/platforms/aws/cloudfront/lambda%40edge/index.mjs) for Skyfire Token Verification
 
-import { JwtVerifier } from "aws-jwt-verify";
-
-// Create the verifier outside the Lambda handler (= during cold start),
-// so the cache can be reused for subsequent invocations. Then, only during the
-// first invocation, will the verifier actually need to fetch the JWKS.
-const verifier = JwtVerifier.create({
-    issuer: "https://app.skyfire.xyz", 
-    audience: <SELLER_AGENT_ID>, 
-    jwksUri: "https://app.skyfire.xyz/.well-known/jwks.json",
-  });
-
-export const handler = async (event) => {
-  const { request } = event.Records[0].cf;
-  if (request.headers["skyfire-pay-id"] && request.headers["skyfire-pay-id"][0].value) {
-    const skyfireToken = request.headers["skyfire-pay-id"][0].value || null; 
-    try {
-      const payload = await verifier.verify(skyfireToken); 
-      console.log("Token is valid!");
-      return request; // allow request to proceed
-    } catch {
-      console.log("Token not valid!");
-    }
-  }
-  return {
-    status: "402",
-    body: "Invalid/missing token received",
-  };
-};
-
-This example uses a Viewer Request event so token validation happens before cache evaluation.
+Note: This sample uses a Viewer Request event so token validation happens before cache evaluation.
 
 #### Flow Summary (High-Level)
 

@@ -24,8 +24,8 @@ A CloudFront distribution can attach one Lambda function per event type.
 Configure your origin, cache policy, and any required behaviors based on your application architecture.
 
 2. Create a Lambda@Edge Function
-Lambda@Edge functions must be created in the us-east-1 region. 
-CloudFront's control plane is hosted exclusively in this region, and all edge function replication begins from here. More details here.
+Lambda@Edge functions must be created in the N. Virginia (us-east-1) region. 
+CloudFront's control plane is hosted exclusively in this region, and all edge function replication begins from here. More details [here](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-how-it-works-tutorial.html).
 
 #### Flow Summary (High-Level)
 
@@ -59,20 +59,21 @@ When using AWS WAF, WAF evaluates the request before your Viewer Request Lambda@
 
 #### Bot Classification Requirement
 
-The client needs to classify bots into 3 categories:
 1. Allowed Bots (no Skyfire token required)
 Examples:
 - Googlebot
 - Bingbot
 These should bypass Skyfire logic if verified as good bots.
-2. Bots that Require Skyfire Token
+
+2. Bots with Skyfire Token
+- Acceptable: These must present a valid Skyfire token. If a token is missing or invalid, then block.
+- Non-acceptable: Even if a Skyfire token is present, these should not override other WAF security rules.
+
+Examples:
 - AI scrapers
 - Automated crawlers
-These must present a valid Skyfire token. If a token is missing or invalid, then block.
-3. Non-acceptable / Malicious Bots
-- Unknown
-- High-risk 
-Even if a Skyfire token is present, these should not override other WAF security rules.
+
+3. Unidentified bots (which don’t present Skyfire token)
 
 #### Important Requirement
 
