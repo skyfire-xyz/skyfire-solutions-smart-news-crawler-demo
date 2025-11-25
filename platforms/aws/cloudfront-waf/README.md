@@ -1,4 +1,4 @@
-# CloudFront + AWS WAF + Lambda@Edge
+# CloudFront-Based Architectures (CloudFront + AWS WAF + Lambda@Edge)
 
 ## CloudFront Overview
 Amazon CloudFront is AWS’s global content delivery network (CDN). It accelerates delivery of web assets (static and dynamic content, APIs, media) by caching content at globally distributed edge locations. Requests are served from the nearest edge location, reducing latency and improving performance.

@@ -41,7 +41,7 @@ export const handler = async (event) => {
           ]
         },
         context: {
-          error: "Unauthorized"
+          error: "Invalid token `skyfire-pay-id`. Please use valid kya token - https://docs.skyfire.xyz/reference/create-token."
         }
       };
     }

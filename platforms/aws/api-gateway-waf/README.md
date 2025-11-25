@@ -1,4 +1,4 @@
-# API Gateway-Based Architectures
+# API Gateway-Based Architectures (API Gateway + WAF + Lambda Authorizer)
 
 ## API Gateway Overview
 

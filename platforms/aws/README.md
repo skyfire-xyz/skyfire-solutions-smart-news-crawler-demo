@@ -29,6 +29,8 @@ CloudFront's control plane is hosted exclusively in this region, and all edge fu
 
 #### Flow Summary (High-Level)
 
+![Sequence Diagram](https://github.com/skyfire-xyz/skyfire-solutions-smart-news-crawler-demo/blob/SKYK-930-aws-integration/static/images/aws/cloudfront/cloudfront-seq-diag.png)
+
 - Viewer sends request.
 - CloudFront receives request → triggers Viewer Request Lambda@Edge.
 - Lambda verifies the token (if present).
