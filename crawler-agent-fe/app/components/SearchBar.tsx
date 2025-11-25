@@ -35,6 +35,7 @@ const searchFormSchema = z.object({
     .url("Invalid URL format")
     .regex(/^https?:\/\//, "URL must start with http:// or https://"),
   botType: z.string().optional(),
+  userAgent: z.string().optional(),
 })
 
 type SearchFormValues = z.infer<typeof searchFormSchema>
@@ -48,6 +49,7 @@ interface Suggestion {
 interface BotTypes {
   type: string
   description: string
+  userAgent: string
 }
 
 const suggestions: Suggestion[] = [
@@ -57,26 +59,35 @@ const suggestions: Suggestion[] = [
     name: "MockNews",
     type: "Protected",
   },
+  { url: "https://ac8t87if5a.execute-api.us-east-1.amazonaws.com/dev/real-estate", name: "MockNews (API Gateway)", type: "Protected" }, //https://mock-news-site-aws-api-gateway.skyfire.xyz/dev/real-estate/
   {
-    url: "https://g41sg3b8o8.execute-api.us-east-1.amazonaws.com/dev/users",
+    url: "https://vmqjil4y49.execute-api.us-east-1.amazonaws.com/dev/real-estate", //https://mock-news-site-aws-api-gateway-waf.skyfire.xyz/dev/real-estate/
     name: "MockNews (API Gateway + WAF)",
     type: "Protected",
   },
+  { url: "https://dex1j9lx64e98.cloudfront.net/", name: "MockNews (CloudFront)", type: "Protected" }, //https://mock-news-site-aws-cloudfront.skyfire.xyz/
   {
-    url: "https://dex4cbi52l5ce.cloudfront.net/",
+    url: "https://dex4cbi52l5ce.cloudfront.net/", //https://mock-news-site-aws-cloudfront-waf.skyfire.xyz/
     name: "MockNews (CloudFront + WAF)",
     type: "Protected",
   },
-  // { url: "https://mock-news-site.skyfire.xyz/", name: "MockNews", type: "Protected" },
-  // { url: "https://mock-news-site.skyfire.xyz/", name: "MockNews", type: "Protected" },
 ]
 
 const botTypes: BotTypes[] = [
   {
-    type: "Good bot", description: "Open access to protected content for Search Engine Bot (google/bing etc)",
+    type: "Good bot",
+    description:
+      "Open access to protected content for Search Engine Bot (google/bing etc)",
+    userAgent: "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
   },
-  { type: "AI bot", description: "Requires Skyfire KYA Token to access protected content" },
-  { type: "Bad bot", description: "Access not authorized at all" }
+  {
+    type: "AI bot",
+    description: "Requires Skyfire KYA Token to access protected content",
+    userAgent: "GPTBot/1.0 (+https://www.gptbot.ai/)",
+  },
+  { type: "Bad bot", description: "Access not authorized at all",
+    userAgent: ""
+   },
 ]
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -89,7 +100,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }) => {
   const [kyaToken, setKyaToken] = useState<string>(skyfireKyaToken || "")
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const [isUrlFocused, setIsUrlFocused] = useState(false)
   const [selectedUrlIndex, setSelectedUrlIndex] = useState(-1)
 
@@ -100,9 +111,22 @@ const SearchBar: React.FC<SearchBarProps> = ({
     resolver: zodResolver(searchFormSchema),
     defaultValues: {
       url: "",
-      botType: ""
+      botType: "",
+      userAgent: "",
     },
   })
+
+  // watch selected url to decide whether to show bot dropdown
+  const selectedUrl = form.watch("url")
+  const showBotDropdown = [
+    "https://vmqjil4y49.execute-api.us-east-1.amazonaws.com/dev/real-estate", //"https://mock-news-site-aws-api-gateway-waf.skyfire.xyz/dev/real-estate/",
+    "https://dex4cbi52l5ce.cloudfront.net/", //"https://mock-news-site-aws-cloudfront-waf.skyfire.xyz/"
+  ].includes(selectedUrl)
+
+  // clear botType when bot dropdown shouldn't be shown
+  if (!showBotDropdown && form.getValues("botType")) {
+    form.setValue("botType", "")
+  }
 
   const handleUrlKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isUrlFocused || suggestions.length === 0) return
@@ -133,8 +157,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
   }
 
-    const handleBotKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isUrlFocused || botTypes.length === 0) return
+  const handleBotKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!isBotFocused || botTypes.length === 0) return
 
     switch (e.key) {
       case "ArrowDown":
@@ -149,8 +173,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
         break
       case "Enter":
         e.preventDefault()
+        console.log("selectedBotIndex", selectedBotIndex);
         if (selectedBotIndex >= 0) {
+          console.log("botTypes[selectedBotIndex]", botTypes[selectedBotIndex]);
           form.setValue("botType", botTypes[selectedBotIndex].type)
+          form.setValue("userAgent", botTypes[selectedBotIndex].userAgent)
           setIsBotFocused(false)
           setSelectedBotIndex(-1)
         }
@@ -163,6 +190,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }
 
   const onSubmit = async (data: SearchFormValues) => {
+    console.log("data in onSubmit", data);
     setIsUrlFocused(false)
     setIsBotFocused(false)
     await onSearch()
@@ -179,6 +207,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
           inputPayment !== "" && { inputCost: Number(inputPayment) }),
         ...(inputDepth &&
           inputDepth !== "" && { inputDepth: Number(inputDepth) }),
+        ...(data.botType && { "botType": data.botType }),
+        ...(data.userAgent && { "userAgent": data.userAgent }),
       }
 
       const headers: Record<string, string> = {
@@ -287,48 +317,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
                           ))}
                         </div>
                       )}
-                      <Input
-                        {...field}
-                        onFocus={() => setIsBotFocused(true)}
-                        onBlur={() =>
-                          setTimeout(() => setIsBotFocused(false), 200)
-                        }
-                        onKeyDown={handleBotKeyDown}
-                        placeholder="Select bot category"
-                        autoComplete="off"
-                      />
-                      {isBotFocused && (
-                        <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
-                          {botTypes.map((bot, index) => (
-                            <div
-                              key={bot.type}
-                              className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
-                                index === selectedBotIndex
-                                  ? "border-blue-200 bg-gray-50"
-                                  : "hover:bg-gray-50"
-                              }`}
-                              onClick={() => {
-                                field.onChange(bot.type)
-                                setIsBotFocused(false)
-                                setSelectedBotIndex(-1)
-                              }}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex min-w-0 flex-1 items-center gap-3">
-                                    <div className="min-w-0 flex-1">
-                                    <div className="truncate text-sm font-medium text-gray-900">
-                                      {bot.type}
-                                    </div>
-                                    <div className="mt-1 truncate text-xs text-gray-500">
-                                      {bot.description}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
                     </div>
                   </FormControl>
                   <div className="absolute top-8 text-sm">
@@ -337,6 +325,60 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 </FormItem>
               )}
             />
+            {/* Show botType dropdown only for specific protected MockNews URLs */}
+            {showBotDropdown && (
+              <div className="mt-3">
+                <FormField
+                  control={form.control}
+                  name="botType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative">
+                          <Input
+                            {...field}
+                            onFocus={() => setIsBotFocused(true)}
+                            onBlur={() => setTimeout(() => setIsBotFocused(false), 200)}
+                            onKeyDown={handleBotKeyDown}
+                            placeholder="Select bot category"
+                            autoComplete="off"
+                          />
+                          {isBotFocused && (
+                            <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
+                              {botTypes.map((bot, index) => (
+                                <div
+                                  key={bot.type}
+                                  className={`cursor-pointer border-b px-4 py-3 last:border-b-0 ${
+                                    index === selectedBotIndex ? "border-blue-200 bg-gray-50" : "hover:bg-gray-50"
+                                  }`}
+                                  onClick={() => {
+                                    field.onChange(bot.type)
+                                    setIsBotFocused(false)
+                                    setSelectedBotIndex(-1)
+                                    form.setValue("userAgent", bot.userAgent)
+                                  }}
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div className="min-w-0 flex-1">
+                                      <div className="truncate text-sm font-medium text-gray-900">
+                                        {bot.type}
+                                      </div>
+                                      <div className="mt-1 truncate text-xs text-gray-500">
+                                        {bot.description}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
           </div>
 
           <Button
