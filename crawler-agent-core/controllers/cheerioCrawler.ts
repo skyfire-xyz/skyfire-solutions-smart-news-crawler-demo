@@ -15,6 +15,7 @@ import {
 
 import { addCrawler, stopAndRemoveCrawler } from "./crawlerRegistry";
 import { skyfireKyaTokenHook } from "./skyfireKyaTokenHook";
+import crypto from 'crypto';
 
 export async function crawlWebsite({
   startUrl,
