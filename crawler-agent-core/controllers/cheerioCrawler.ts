@@ -54,6 +54,7 @@ export async function crawlWebsite({
     maxRequestsPerCrawl: inputRequests,
     maxRequestRetries: 0,
     requestHandlerTimeoutSecs: 5,
+    navigationTimeoutSecs: 5,
     additionalMimeTypes: ["application/json"],
     preNavigationHooks: [skyfireKyaTokenHook(skyfireKyaToken)],
     sessionPoolOptions: {

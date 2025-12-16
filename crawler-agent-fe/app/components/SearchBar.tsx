@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useCrawling } from "../contexts/CrawlingContext"
 
 import { Alert, AlertType } from "../types"
 
@@ -57,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   skyfireKyaToken,
 }) => {
   const [kyaToken, setKyaToken] = useState<string>(skyfireKyaToken || "")
-  const [isLoading, setIsLoading] = useState(false)
+  const { isCrawling: isLoading, setIsCrawling: setIsLoading } = useCrawling()
   const [isFocused, setIsFocused] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
 
@@ -177,6 +178,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         onKeyDown={handleKeyDown}
                         placeholder="Select or Enter website URL"
                         autoComplete="off"
+                        disabled={isLoading}
                       />
                       {isFocused && (
                         <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-md border bg-white shadow-lg">
