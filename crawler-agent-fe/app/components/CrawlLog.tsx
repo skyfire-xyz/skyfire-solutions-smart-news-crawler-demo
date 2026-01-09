@@ -54,7 +54,7 @@ export default function CrawlLog({
                           ERROR
                         </Badge>
                         <span className="text-xs text-red-600 dark:text-red-400">
-                          KYA token: Missing
+                          Status: {entry.response.statusCode ?? entry.response.headers[':status'] ?? 'N/A'}
                         </span>
                           </>
                       ) : (

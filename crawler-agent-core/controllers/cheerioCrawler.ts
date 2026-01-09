@@ -76,14 +76,15 @@ export async function crawlWebsite({
             message: {
               type: MessageType.ERROR,
               request: {
-                url: `Request to ${request.url} failed. Status: ${response.statusCode}`,
+                url: `Request to ${request.url} failed.`,
                 headers: request.headers,
                 method: request.method,
-              },
+              }, 
               response: {
                 text: `${contentBody}`,
                 url: request.url,
                 headers: response.headers,
+                statusCode: response.statusCode
               },
             },
           },
@@ -131,21 +132,22 @@ export async function crawlWebsite({
       // Handle cases where response is undefined (timeouts, connection errors, etc.)
       const responseText = body?.toString() || response?.body || "";
       const responseHeaders = response?.headers || {};
-      const statusCode = response?.statusCode || "N/A";
+      const statusCode = response?.statusCode;
       
       const errorData = {
         message: {
           type: MessageType.ERROR,
+          request: {
+            url: `Request to ${request.url} failed.`,
+            headers: request.headers,
+            method: request.method,
+          },
           response: {
-            text: responseText,
+            text: responseText|| "",
             url: request.url,
             headers: responseHeaders,
-          },
-          request: {
-            url: `Request to ${request.url} failed. Status: ${statusCode}`,
-            headers: request.headers || {},
-            method: request.method || "GET",
-          },
+            statusCode: statusCode
+          }
         },
       };
       triggerCrawlEvent(errorData, channelId).catch((error) => {
