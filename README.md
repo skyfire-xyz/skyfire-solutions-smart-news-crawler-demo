@@ -21,9 +21,9 @@ In addition to individual users, Skyfire supports Enterprises and Enterprise Use
 When a user interacts with a merchant or content publisher that’s registered with Skyfire as an Enterprise, Skyfire automatically provisions an Enterprise User Account for that user. This means the user inherits access to Skyfire’s capabilities through their enterprise association — no separate signup is required.
 
 For example, in this demo:
-- The default user is `chloe+1@skyfire.xyz`.
+- The default user is `bobby@skyfire.xyz`.
 - She has registered under the DEF News Agent organization.
-- Since DEF News Agent is a registered enterprise with Skyfire, Chloe automatically has a Skyfire enterprise user account associated with her email and that enterprise.
+- Since DEF News Agent is a registered enterprise with Skyfire, Bobby automatically has a Skyfire enterprise user account associated with her email and that enterprise.
 
 You can verify this by walking through the [live demo](https://news-crawler-demo.skyfire.xyz/) and decoding her `kya` token. In the decoded payload, you'll find the following field:
 
@@ -33,13 +33,13 @@ You can verify this by walking through the [live demo](https://news-crawler-demo
   "name": "DEF News Agent"
 }
 ```
-This field indicates that the user (`chloe+1@skyfire.xyz`) belongs to the DEF News Agent organization -- her Skyfire identity and permissions are derived from that enterprise.
+This field indicates that the user (`bobby@skyfire.xyz`) belongs to the DEF News Agent organization -- her Skyfire identity and permissions are derived from that enterprise.
 
 ### Live Demo Link
 
 You can play with the live demo [here](https://news-crawler-demo.skyfire.xyz/).
 
-Here is a [video link](https://youtu.be/onkJ1LlS7q8) for the running crawler demo
+Here is a [video link](https://youtu.be/zAlU-0Af1tw?si=IlxaRk892FQ7DU5l) for the running crawler demo
 
 ### Flow
 

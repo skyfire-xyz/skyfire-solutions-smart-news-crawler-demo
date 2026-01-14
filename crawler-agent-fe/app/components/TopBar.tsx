@@ -53,7 +53,7 @@ export default function TopBar() {
           {/* Reference Video Button */}
           <div className="mb-3">
             <a
-              href="https://youtu.be/onkJ1LlS7q8"
+              href="https://youtu.be/zAlU-0Af1tw?si=IlxaRk892FQ7DU5l"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-lg bg-gray-800 px-4 py-2 text-sm text-white transition hover:bg-gray-700"
