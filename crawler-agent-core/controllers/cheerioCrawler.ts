@@ -52,9 +52,9 @@ export async function crawlWebsite({
   crawler = new CheerioCrawler({
     requestQueue,
     maxRequestsPerCrawl: inputRequests,
-    maxRequestRetries: 0,
-    requestHandlerTimeoutSecs: 5,
-    navigationTimeoutSecs: 5,
+    maxRequestRetries: 3, // Allow retries for transient network errors (ECONNRESET, timeouts)
+    requestHandlerTimeoutSecs: 20,
+    navigationTimeoutSecs: 20,
     additionalMimeTypes: ["application/json"],
     preNavigationHooks: [skyfireKyaTokenHook(skyfireKyaToken)],
     sessionPoolOptions: {
