@@ -153,7 +153,7 @@ export async function crawlWebsite({
       triggerCrawlEvent(errorData, channelId).catch((error) => {
         console.error("Error triggering Pusher event:", error);
       });
-      console.error("Failed request error:", error);
+      console.error("Crawl request failed:", error);
     },
 
     // Limit the concurrency to avoid overwhelming the server

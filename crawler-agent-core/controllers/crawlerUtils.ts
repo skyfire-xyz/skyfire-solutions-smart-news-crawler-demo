@@ -13,14 +13,20 @@ export const pusher = new Pusher({
 
 export async function triggerCrawlEvent(
   data: unknown,
-  channel: string = "crawler-channel",
-  event: string = "crawler-event",
+  channel: string = 'crawler-channel',
+  event: string = 'crawler-event'
 ): Promise<void> {
-  console.log(
-    { data },
-    `Triggering pusher event ${event} on channel ${channel} type ${(data as { message: { type: string } }).message.type}`,
-  );
-  await pusher.trigger(channel, event, data);
+  const message = (data as { message?: any })?.message
+  const type = message?.type
+
+  if (type === MessageType.ERROR) {
+    console.log('Crawl error occurred:', {
+      channel,
+      url: message?.request?.url,
+      method: message?.request?.method,
+    })
+  }
+  await pusher.trigger(channel, event, data)
 }
 
 export async function triggerEndCrawlMessage({
