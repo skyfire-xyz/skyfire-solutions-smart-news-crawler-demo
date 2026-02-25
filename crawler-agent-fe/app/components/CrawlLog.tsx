@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge"
 import { Alert, MessageData } from "../types"
 import ShowTextButton from "./ShowTextButton"
 
-
 interface CrawlLogProps {
   log: MessageData[]
   errorMessages: Alert[]
@@ -66,7 +65,7 @@ export default function CrawlLog({
                             SUCCESS
                           </Badge>
                           <span className="text-xs text-gray-500 dark:text-gray-300">
-                            KYA token: {entry.response.headers["x-identity-verified"] ? "Verified & Accepted" : "Not Required"}
+                            Page contents retrieved.
                           </span>
                         </>
                       )}
