@@ -6,7 +6,7 @@ export interface DecodedSkyfireJwt {
   btg?: string;
   ssi: string;
   scopes?: string[];
-  bid: { email: string };
+  hid: { email: string };
   aid: { creation_id: string, source_ips?: string[] };
   rid: {};
   iat: number;

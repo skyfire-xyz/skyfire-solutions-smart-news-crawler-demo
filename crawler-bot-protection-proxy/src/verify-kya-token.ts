@@ -39,17 +39,17 @@ export async function verifyKyaToken(token: string): Promise<VerifyResult> {
 
   // Check typ header
   const typ = protectedHeader?.typ;
-  if (typ !== "kya+JWT") {
+  if (typ !== "kya+jwt") {
     console.error("Invalid typ:", typ);
     return {
       success: false,
       error: "invalid_typ",
-      message: "typ should be kya+JWT",
+      message: "typ should be kya+jwt",
     };
   }
 
   // Validate email
-  const email = (payload as Record<string, unknown>)?.bid as { email?: string } | undefined;
+  const email = (payload as Record<string, unknown>)?.hid as { email?: string } | undefined;
   const emailStr = email?.email;
   if (typeof emailStr !== "string" || !validator.isEmail(emailStr)) {
     console.error("Invalid email format");
