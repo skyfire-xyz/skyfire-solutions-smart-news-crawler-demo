@@ -3,10 +3,10 @@ import { DecodedSkyfireJwt, isBotRequest } from "../type";
 import { verifyKyaToken } from "../verify-kya-token";
 
 const MISSING_KYA_TEXT =
-  "Missing KYA token in the skyfire-pay-id header. Please create an account at https://app.skyfire.xyz and create a 'kya' token - https://docs.skyfire.xyz/reference/create-token . Include the token in your request in the skyfire-pay-id header.";
+  "Missing KYA token in the skyfire-pay-id header. Please create an account at https://app.skyfire.xyz and create a 'kya-pay' token - https://docs.skyfire.xyz/reference/create-token . Include the token in your request in the skyfire-pay-id header.";
 
 const INVALID_KYA_TEXT =
-  "Invalid KYA token in the skyfire-pay-id header. Please create an account at https://app.skyfire.xyz and create a 'kya' token - https://docs.skyfire.xyz/reference/create-token . Include the token in your request in the skyfire-pay-id header.";
+  "Invalid KYA token in the skyfire-pay-id header. Please create an account at https://app.skyfire.xyz and create a 'kya-pay' token - https://docs.skyfire.xyz/reference/create-token . Include the token in your request in the skyfire-pay-id header.";
 
 export default async function verifyHeader(
   req: Request,
