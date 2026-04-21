@@ -39,7 +39,7 @@
     "class-variance-authority": "^0.4.0",
     "clsx": "^1.2.1",
     "cmdk": "1.0.0",
-    "convict": "^6.2.4",
+    "convict": "^6.2.5",
     "crawlee": "^3.12.1",
     "dotenv": "^16.4.5",
     "encoding": "^0.1.13",
