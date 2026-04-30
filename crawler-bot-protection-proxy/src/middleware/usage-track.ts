@@ -5,9 +5,8 @@ import logger from "../services/logger";
 export default async function usageTrack(
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> {
-
   // Only process authenticated bot requests
   if (!isBotRequest(req) || !hasVerifiedJwt(req)) {
     next();
@@ -27,4 +26,3 @@ export default async function usageTrack(
 
   next();
 }
-

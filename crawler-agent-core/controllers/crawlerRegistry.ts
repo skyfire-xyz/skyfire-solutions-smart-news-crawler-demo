@@ -13,7 +13,13 @@ export function getCurrentRunningCrawler(channelId: string) {
 export function stopAndRemoveCrawler(channelId: string, errorMsg: string) {
   const crawler = getCurrentRunningCrawler(channelId);
   if (crawler) {
-    crawler.stop("Stopping crawl due to " + errorMsg);
+    console.log(
+      "Stopping crawler for channelId:",
+      channelId,
+      "with error message:",
+      errorMsg,
+    );
+    void crawler.teardown();
     delete runningCrawlers[`${channelId}`];
   } else {
     console.log("Crawler not found for channelId:", channelId);

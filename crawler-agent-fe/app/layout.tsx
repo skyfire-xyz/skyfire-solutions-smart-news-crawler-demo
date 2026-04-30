@@ -14,6 +14,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 import "react-toastify/dist/ReactToastify.css"
 import { getClientConfig } from "@/lib/client-config"
+
 import { CrawlingProvider } from "./contexts/CrawlingContext"
 
 export const metadata: Metadata = {
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" suppressHydrationWarning>
       <head />
       <body
+        suppressHydrationWarning
         className={cn(
           "min-h-screen bg-gradient-to-tr from-blue-100 via-indigo-100 to-purple-50 font-sans antialiased",
           fontSans.variable
