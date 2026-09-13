@@ -39,7 +39,7 @@
     "encoding": "0.1.13",
     "jwt-decode": "4.0.0",
     "lucide-react": "0.105.0-alpha.4",
-    "next": "15.5.23",
+    "next": "15.5.24",
     "next-themes": "0.2.1",
     "pusher-js": "8.4.0-rc2",
     "react": "18.2.0",
