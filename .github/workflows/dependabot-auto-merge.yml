@@ -8,10 +8,14 @@
 #
 # Needs "Allow auto-merge" enabled on the repo and the CI jobs marked as
 # required checks. Auto-merge only waits on checks a ruleset requires.
+# Trigger is pull_request, not pull_request_target. This repository is public,
+# so anyone can open a pull request; pull_request_target would run them in the
+# base-branch context with a write token. It buys nothing here either - either
+# trigger still needs an opened/synchronize/reopened event to fire.
 name: Dependabot Auto-merge
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - main
     types:
