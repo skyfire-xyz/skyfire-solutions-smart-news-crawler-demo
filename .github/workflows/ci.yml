@@ -24,10 +24,10 @@ jobs:
       run:
         working-directory: crawler-agent-core
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: crawler-agent-core/package-lock.json
       - run: npm ci
@@ -40,10 +40,10 @@ jobs:
       run:
         working-directory: crawler-agent-fe
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
           cache-dependency-path: crawler-agent-fe/yarn.lock
       - run: yarn install --frozen-lockfile
@@ -57,10 +57,10 @@ jobs:
       run:
         working-directory: crawler-bot-protection-proxy
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 22
+          node-version: 24
           cache: yarn
           cache-dependency-path: crawler-bot-protection-proxy/yarn.lock
       - run: yarn install --frozen-lockfile
