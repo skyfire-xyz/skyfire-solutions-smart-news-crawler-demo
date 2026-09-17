@@ -65,5 +65,5 @@ jobs:
           cache-dependency-path: crawler-bot-protection-proxy/yarn.lock
       - run: yarn install --frozen-lockfile
       - run: yarn typecheck
-      - run: yarn lint
+      - run: yarn eslint 'src/**/*.ts'
       - run: yarn test
