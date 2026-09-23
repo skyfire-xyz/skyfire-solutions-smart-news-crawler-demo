@@ -1,0 +1,65 @@
+# Approves and queues patch and minor Dependabot updates for this repo; majors
+# are labelled needs-manual-review and left for a human.
+#
+# The logic is kept here rather than calling the shared workflow in
+# skyfire-xyz/github-actions: GitHub shares reusable workflows from a private
+# repository only with other private repositories, and this repository is
+# public.
+#
+# Needs "Allow auto-merge" enabled on the repo and the CI jobs marked as
+# required checks. Auto-merge only waits on checks a ruleset requires.
+name: Dependabot Auto-merge
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Decide eligibility
+        id: gate
+        env:
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+          DEP_TYPE: ${{ steps.meta.outputs.dependency-type }}
+        run: |
+          eligible=false
+          case "$UPDATE_TYPE" in
+            version-update:semver-patch) eligible=true ;;
+            version-update:semver-minor) eligible=true ;;
+          esac
+          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
+          echo "update=$UPDATE_TYPE dep=$DEP_TYPE eligible=$eligible"
+
+      - name: Approve and enable auto-merge
+        if: steps.gate.outputs.eligible == 'true'
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review --approve "$PR_URL"
+          gh pr merge --auto --merge "$PR_URL"
+
+      - name: Label held pull requests
+        if: steps.gate.outputs.eligible != 'true'
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr edit "$PR_URL" --add-label "needs-manual-review"
