@@ -25,16 +25,16 @@ app.use((req, res, next) => {
   logger.info({
     method: req.method,
     url: req.url,
-    userAgent: req.get('User-Agent'),
+    userAgent: req.get("User-Agent"),
     ip: req.ip || req.connection.remoteAddress,
     headers: {
-      'content-type': req.get('Content-Type'),
-      'authorization': req.get('Authorization') ? '[REDACTED]' : undefined,
-    }
-  }, 'Proxy request received');
+      "content-type": req.get("Content-Type"),
+      "authorization": req.get("Authorization") ? "[REDACTED]" : undefined,
+    },
+  }, "Proxy request received");
 
   // Log response when it finishes
-  res.on('finish', () => {
+  res.on("finish", () => {
     const duration = Date.now() - startTime;
     logger.info({
       method: req.method,
@@ -42,7 +42,7 @@ app.use((req, res, next) => {
       statusCode: res.statusCode,
       duration: `${duration}ms`,
       ip: req.ip || req.connection.remoteAddress,
-    }, 'Proxy request completed');
+    }, "Proxy request completed");
   });
 
   next();
@@ -68,13 +68,13 @@ const defaultTarget = "https://mock-news-site.skyfire.xyz/";
 
 // Handle empty, null, or undefined PROXY_TARGET
 let proxyTarget: string;
-if (!envProxyTarget || envProxyTarget.trim() === '') {
+if (!envProxyTarget || envProxyTarget.trim() === "") {
   proxyTarget = defaultTarget;
   logger.info({ 
-    reason: 'PROXY_TARGET is empty or not set',
+    reason: "PROXY_TARGET is empty or not set",
     envValue: envProxyTarget,
-    usingDefault: true
-  }, 'Using default proxy target');
+    usingDefault: true,
+  }, "Using default proxy target");
 } else {
   proxyTarget = envProxyTarget.trim();
 }
@@ -83,8 +83,8 @@ if (!envProxyTarget || envProxyTarget.trim() === '') {
 logger.info({ 
   proxyTarget, 
   envValue: envProxyTarget,
-  length: proxyTarget.length 
-}, 'Proxy target validation');
+  length: proxyTarget.length, 
+}, "Proxy target validation");
 
 try {
   const url = new URL(proxyTarget);
@@ -93,20 +93,20 @@ try {
     protocol: url.protocol,
     hostname: url.hostname,
     port: url.port,
-    pathname: url.pathname
-  }, 'Proxy target configured successfully');
+    pathname: url.pathname,
+  }, "Proxy target configured successfully");
 } catch (error) {
   logger.error({ 
     error: error instanceof Error ? error.message : String(error), 
     proxyTarget,
     envValue: envProxyTarget,
     length: proxyTarget.length,
-    charCodes: proxyTarget.split('').map(c => c.charCodeAt(0))
-  }, 'Invalid proxy target URL');
+    charCodes: proxyTarget.split("").map(c => c.charCodeAt(0)),
+  }, "Invalid proxy target URL");
   
   // Try to use default if the env value is invalid
-  if (envProxyTarget && envProxyTarget.trim() !== '') {
-    logger.info('Attempting to use default proxy target as fallback');
+  if (envProxyTarget && envProxyTarget.trim() !== "") {
+    logger.info("Attempting to use default proxy target as fallback");
     try {
       const defaultUrl = new URL(defaultTarget);
       proxyTarget = defaultTarget;
@@ -115,10 +115,10 @@ try {
         protocol: defaultUrl.protocol,
         hostname: defaultUrl.hostname,
         port: defaultUrl.port,
-        pathname: defaultUrl.pathname
-      }, 'Using default proxy target as fallback');
+        pathname: defaultUrl.pathname,
+      }, "Using default proxy target as fallback");
     } catch (fallbackError) {
-      logger.error({ error: fallbackError instanceof Error ? fallbackError.message : String(fallbackError) }, 'Default proxy target is also invalid');
+      logger.error({ error: fallbackError instanceof Error ? fallbackError.message : String(fallbackError) }, "Default proxy target is also invalid");
       process.exit(1);
     }
   } else {
@@ -132,15 +132,15 @@ app.use(
     changeOrigin: true,
     pathFilter: (pathname) => {
       // Don't proxy health check endpoint
-      return pathname !== '/health';
-    }
-  })
+      return pathname !== "/health";
+    },
+  }),
 );
 
 // Error handling middleware
 app.use((err: Error, req: any, res: any, _next: any) => {
-  logger.error({ error: err, url: req.url }, 'Proxy middleware error');
-  res.status(500).json({ error: 'Internal server error' });
+  logger.error({ error: err, url: req.url }, "Proxy middleware error");
+  res.status(500).json({ error: "Internal server error" });
 });
 
 const startServer = async (): Promise<void> => {

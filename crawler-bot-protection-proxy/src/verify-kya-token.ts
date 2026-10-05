@@ -24,7 +24,7 @@ export async function verifyKyaToken(token: string): Promise<VerifyResult> {
         algorithms: ALGORITHMS as unknown as string[],
         issuer: JWT_ISSUER,
         audience: JWT_AUDIENCE,
-      }
+      },
     );
     payload = pl;
     protectedHeader = hdr;

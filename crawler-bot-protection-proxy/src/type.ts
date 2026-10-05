@@ -8,7 +8,7 @@ export interface DecodedSkyfireJwt {
   scopes?: string[];
   hid: { email: string };
   aid: { creation_id: string, source_ips?: string[] };
-  rid: {};
+  rid: Record<string, unknown>;
   iat: number;
   iss: string;
   jti: string;
