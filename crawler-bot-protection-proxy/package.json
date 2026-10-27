@@ -4,7 +4,7 @@
   "description": "Node.js/Express proxy service with bot protection",
   "main": "dist/index.js",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "start": "node dist/index.js",
