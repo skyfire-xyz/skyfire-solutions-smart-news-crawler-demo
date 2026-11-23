@@ -30,5 +30,4 @@ USER nodejs
 
 EXPOSE 4000
 
-# Use nodemon for development, node for production
 CMD ["yarn", "dev"]
